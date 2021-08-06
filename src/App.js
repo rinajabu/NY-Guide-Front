@@ -52,6 +52,21 @@ const handleNewRatingChange = (event) => {
 }
 
 // create form submit
+const handleNewFormSubmit = (event) => {
+  event.preventDefault()
+  axios.post(
+    'http://localhost:3000/nyguide',
+    {
+      title: newTitle,
+      category: newCategory,
+      location: newLocation,
+      image: newImage,
+      description: newDescription,
+      price: newPrice,
+      rating: newRating
+    }
+  )
+}
 
 ///////////////////// RETURN ///////////////
   return (
