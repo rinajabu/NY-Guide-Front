@@ -8,9 +8,10 @@ const Show = (props) => {
     return (
         <div>
             <h3>{props.prop.title}</h3>
+            <p>Made by: {props.prop.author}</p>
             <img src={props.prop.image} />
             <details>
-                <summary>Details</summary>
+                <summary>Show Details</summary>
                 <ul>
                     <li>Category: {props.prop.category}</li>
                     <li>Location: {props.prop.location}</li>
