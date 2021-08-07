@@ -83,11 +83,11 @@ const handleEditForm = (eventEdit) => {
         .put(
             `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${eventEdit._id}`,
             {
-                title: newTitle || eventEdit.title,
+                title: newTitle,
                 category: newCategory,
-                location: newLocation || eventEdit.location,
-                image: newImage || eventEdit.image,
-                description: newDescription || eventEdit.description,
+                location: newLocation,
+                image: newImage,
+                description: newDescription,
                 price: newPrice,
                 rating: newRating
             }
@@ -170,12 +170,11 @@ useEffect(() => {
             {
                 recommend.map((guide) => {
                     return (
-                    <>
                     <div>
                         <Show prop={guide} />
                         <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                         <details><summary>Edit</summary>
-                            <form onSubmit={(event) => {handleEditForm(guide)} }>
+                            <form onSubmit={ (event) => {handleEditForm(guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} /><br/>
                                 <label for="category">Category </label>
@@ -212,7 +211,6 @@ useEffect(() => {
                             </form>
                         </details>
                     </div>
-                    </>
                     )
                 })
             }
