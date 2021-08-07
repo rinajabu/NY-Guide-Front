@@ -13,11 +13,12 @@ const [newImage, setNewImage] = useState('')
 const [newDescription, setNewDescription] = useState('')
 const [newPrice, setNewPrice] = useState('')
 const [newRating, setNewRating] = useState('')
+const [newComment, setNewComment] = useState('')
 const [recommend, setRecommend] = useState([])
 
 ////////////////// EVENT HANDLERS ///////////////////
 
-///// create form /////
+///// create and edit form /////
 // title
 const handleNewTitleChange = (event) => {
   setNewTitle(event.target.value)
@@ -79,17 +80,19 @@ const handleNewFormSubmit = (event) => {
 
 //Create edit form
 const handleEditForm = (eventEdit) => {
+  console.log(eventEdit);
     axios
         .put(
             `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${eventEdit._id}`,
             {
-                title: newTitle,
-                category: newCategory,
-                location: newLocation,
-                image: newImage,
-                description: newDescription,
-                price: newPrice,
-                rating: newRating
+                title: newTitle || eventEdit.title,
+                category: newCategory || eventEdit.category,
+                location: newLocation || eventEdit.location,
+                image: newImage || eventEdit.image,
+                description: newDescription || eventEdit.description,
+                price: newPrice || eventEdit.price,
+                rating: newRating || eventEdit.rating,
+                comments: newComment || eventEdit.comments
             }
         ).then(() => {
             axios
@@ -148,19 +151,19 @@ useEffect(() => {
           <input type="text" onChange={handleNewDescriptionChange} /><br/>
           <label for="price">Price </label>
           <select onChange={handleNewPriceChange} >
-            <option value="price-1">$</option>
-            <option value="price-2">$$</option>
-            <option value="price-3">$$$</option>
-            <option value="price-4">$$$$</option>
-            <option value="price-5">$$$$$</option>
+            <option value="$">$</option>
+            <option value="$$">$$</option>
+            <option value="$$$">$$$</option>
+            <option value="$$$$">$$$$</option>
+            <option value="$$$$$">$$$$$</option>
           </select><br/>
           <label for="rating">Rating </label>
           <select onChange={handleNewRatingChange} >
-            <option value="rating-1">1</option>
-            <option value="rating-2">2</option>
-            <option value="rating-3">3</option>
-            <option value="rating-4">4</option>
-            <option value="rating-5">5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select><br/>
           <input type="submit" value="Create Recommendation!" />
         </form>
@@ -176,9 +179,9 @@ useEffect(() => {
                         <details><summary>Edit</summary>
                             <form onSubmit={ (event) => {handleEditForm(guide)} }>
                                 <label for="title">Title </label>
-                                <input type="text" onChange={handleNewTitleChange} /><br/>
+                                <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
                                 <label for="category">Category </label>
-                                <select onChange={handleNewCategoryChange} >
+                                <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
                                     <option value="outdoor">Outdoor</option>
                                     <option value="food">Food</option>
                                     <option value="museum">Museum</option>
@@ -186,26 +189,26 @@ useEffect(() => {
                                     <option value="night-life">Night Life</option>
                                 </select><br/>
                                 <label for="location">Location </label>
-                                <input type="text" onChange={handleNewLocationChange} /><br/>
+                                <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
                                 <label for="image">Image </label>
-                                <input type="url" onChange={handleNewImageChange} /><br/>
+                                <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
                                 <label for="description">Description </label>
-                                <input type="text" onChange={handleNewDescriptionChange} /><br/>
+                                <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
                                 <label for="price">Price </label>
-                                <select onChange={handleNewPriceChange} >
-                                    <option value="price-1">$</option>
-                                    <option value="price-2">$$</option>
-                                    <option value="price-3">$$$</option>
-                                    <option value="price-4">$$$$</option>
-                                    <option value="price-5">$$$$$</option>
+                                <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                                    <option value="$">$</option>
+                                    <option value="$$">$$</option>
+                                    <option value="$$$">$$$</option>
+                                    <option value="$$$$">$$$$</option>
+                                    <option value="$$$$$">$$$$$</option>
                                 </select><br/>
                                 <label for="rating">Rating </label>
-                                <select onChange={handleNewRatingChange} >
-                                    <option value="rating-1">1</option>
-                                    <option value="rating-2">2</option>
-                                    <option value="rating-3">3</option>
-                                    <option value="rating-4">4</option>
-                                    <option value="rating-5">5</option>
+                                <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select><br/>
                                 <input type="submit" value="Edit" />
                             </form>
