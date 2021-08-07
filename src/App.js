@@ -2,6 +2,9 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import './App.css';
 import Show from './components/Show'
+// modal //
+import {Modal} from 'react-responsive-modal'
+import 'react-responsive-modal/styles.css'
 
 const App = () => {
 
@@ -13,8 +16,12 @@ const [newImage, setNewImage] = useState('')
 const [newDescription, setNewDescription] = useState('')
 const [newPrice, setNewPrice] = useState('')
 const [newRating, setNewRating] = useState('')
-const [newComment, setNewComment] = useState('')
+const [newAuthor, setNewAuthor] = useState('')
+const [newLikes, setNewLikes] = useState(0)
+const [newComment, setNewComment] = useState([])
 const [recommend, setRecommend] = useState([])
+// modal state
+const [open, setOpen] = useState(false)
 
 ////////////////// EVENT HANDLERS ///////////////////
 
@@ -22,6 +29,11 @@ const [recommend, setRecommend] = useState([])
 // title
 const handleNewTitleChange = (event) => {
   setNewTitle(event.target.value)
+}
+
+// author
+const handleNewAuthorChange = (event) => {
+  setNewAuthor(event.target.value)
 }
 
 // category
@@ -54,6 +66,39 @@ const handleNewRatingChange = (event) => {
   setNewRating(event.target.value)
 }
 
+// comments
+  const handleNewCommentsChange = (event, comments) => {
+    setNewComment(newComment => [...comments, event.target.value])
+  }
+
+// create/post new comment
+  const postNewComment = (event, commentData) => {
+    event.preventDefault()
+    axios
+      .put(
+        `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${commentData._id}`,
+        {
+          title: commentData.title,
+          author: commentData.author,
+          category: commentData.category,
+          location: commentData.location,
+          image: commentData.image,
+          description: commentData.description,
+          price: commentData.price,
+          rating: commentData.rating,
+          comments: newComment,
+          likes: commentData.likes
+        }
+      )
+      .then(() => {
+        axios
+          .get('https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide')
+          .then((response) => {
+            setRecommend(response.data)
+          })
+      })
+  }
+
 // create form submit
 const handleNewFormSubmit = (event) => {
     event.preventDefault()
@@ -61,12 +106,15 @@ const handleNewFormSubmit = (event) => {
         'https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide',
         {
             title: newTitle,
+            author: newAuthor,
             category: newCategory,
             location: newLocation,
             image: newImage,
             description: newDescription,
             price: newPrice,
-            rating: newRating
+            rating: newRating,
+            comments: newComment,
+            likes: newLikes
         }
     ).then(() => {
         axios
@@ -98,7 +146,7 @@ const handleEditForm = (eventEdit) => {
             axios
                 .get('https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide')
                 .then((response) => {
-                    recommend(response.data)
+                    setRecommend(response.data)
                 })
         })
 }
@@ -116,6 +164,10 @@ const handleDelete = (eventDelete) => {
         })
 }
 
+// open and close modal functions
+const onOpenModal = () => {setOpen(true)}
+const onCloseModal = () => {setOpen(false)}
+
 //================useEffect================//
 useEffect(() => {
     axios
@@ -129,14 +181,22 @@ useEffect(() => {
 ///////////////////// RETURN ///////////////
   return (
     <main>
+      <header>
+        <button onClick={onOpenModal}>Open Modal</button>
+        <Modal open={open} onClose={onCloseModal} center>
+            <h3>Hello this is our modal!</h3>
+        </Modal>
+      </header>
       <h1>NY Guide</h1>
       <section>
         <h2>Create NY Recommendation</h2>
         <form onSubmit={handleNewFormSubmit}>
           <label for="title">Title </label>
           <input type="text" onChange={handleNewTitleChange} /><br/>
+          <label for="author">Author </label>
+          <input type="text" onChange={handleNewAuthorChange} /><br/>
           <label for="category">Category </label>
-          <select onChange={handleNewCategoryChange} >
+          <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
             <option value="outdoor">Outdoor</option>
             <option value="food">Food</option>
             <option value="museum">Museum</option>
@@ -145,12 +205,14 @@ useEffect(() => {
           </select><br/>
           <label for="location">Location </label>
           <input type="text" onChange={handleNewLocationChange} /><br/>
-          <label for="image">Image </label>
+          <label for="image-preview">Image Preview </label>
+          <img src={newImage} />
+          <label for="image">Image URL </label>
           <input type="url" onChange={handleNewImageChange} /><br/>
           <label for="description">Description </label>
           <input type="text" onChange={handleNewDescriptionChange} /><br/>
           <label for="price">Price </label>
-          <select onChange={handleNewPriceChange} >
+          <select onChange={handleNewPriceChange} defaultValue={newPrice} >
             <option value="$">$</option>
             <option value="$$">$$</option>
             <option value="$$$">$$$</option>
@@ -158,7 +220,7 @@ useEffect(() => {
             <option value="$$$$$">$$$$$</option>
           </select><br/>
           <label for="rating">Rating </label>
-          <select onChange={handleNewRatingChange} >
+          <select onChange={handleNewRatingChange} defaultValue={newRating} >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -175,7 +237,19 @@ useEffect(() => {
                     return (
                     <div>
                         <Show prop={guide} />
-                        <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
+                        <details><summary>Show Comments</summary>
+                          <h4>Comments</h4>
+                          {
+                            guide.comments.map((comment) => {
+                              return <li>{comment}</li>
+                            })
+                          }
+                          <h4>Post A Comment</h4>
+                          <form onSubmit={ (event) => { postNewComment(event, guide) } }>
+                            <input type="text" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }/>
+                            <input type="submit" value="Comment"/>
+                          </form>
+                        </details>
                         <details><summary>Edit</summary>
                             <form onSubmit={ (event) => {handleEditForm(guide)} }>
                                 <label for="title">Title </label>
@@ -190,6 +264,8 @@ useEffect(() => {
                                 </select><br/>
                                 <label for="location">Location </label>
                                 <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                                <label for="image-preview">Image Preview </label>
+                                <img src={newImage} />
                                 <label for="image">Image </label>
                                 <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
                                 <label for="description">Description </label>
@@ -213,6 +289,7 @@ useEffect(() => {
                                 <input type="submit" value="Edit" />
                             </form>
                         </details>
+                        <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
                 })
