@@ -1,8 +1,5 @@
 {
   "name": "ny-guide-front",
-  "engines": {
-    "node": "16.3.0"
-  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
