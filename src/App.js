@@ -24,7 +24,7 @@ const [recommend, setRecommend] = useState([])
 const [signUp, setSignUp] = useState(false)
 const [login, setLogin] = useState(false)
 const [newCreate, setNewCreate] = useState(false)
-const [newEdit, setNewEdit] = useState(false)
+const [newEdit, setNewEdit] = useState([])
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
@@ -303,7 +303,8 @@ useEffect(() => {
       <section>
         <h3>NY Recommendations</h3>
             {
-                recommend.map((guide) => {
+                recommend.map((guide, idx) => {
+                    setNewEdit([...newEdit, false])
                     return (
                     <div>
                         <Show prop={guide} />
@@ -321,7 +322,7 @@ useEffect(() => {
                           </form>
                         </details>
                         <button onClick={editOpenModal}>Edit</button>
-                        <Modal open={newEdit} onClose={editCloseModal} center>
+                        <Modal open={newEdit([idx])} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
