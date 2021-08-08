@@ -24,7 +24,7 @@ const [recommend, setRecommend] = useState([])
 const [signUp, setSignUp] = useState(false)
 const [login, setLogin] = useState(false)
 const [newCreate, setNewCreate] = useState(false)
-const [newEdit, setNewEdit] = useState([])
+const [newEdit, setNewEdit] = useState(false)
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
@@ -76,6 +76,16 @@ const handleNewRatingChange = (event) => {
 // comments
   const handleNewCommentsChange = (event, comments) => {
     setNewComment(newComment => [...comments, event.target.value])
+  }
+
+// Handle changeUser
+  const handleChangeUser = (event) => {
+      setNewUser(event.target.value)
+  }
+
+// Handle Pasword
+  const handleChangePassword = (event) => {
+      setNewPass(event.target.value)
   }
 
 // create/post new comment
@@ -174,8 +184,10 @@ const handleDelete = (eventDelete) => {
         })
 }
 
+
 // Sign up Form
 const signUpForm = (event) => {
+    event.preventDefault()
     axios.post(
         'https://ny-guide-backend-rina-tommy.herokuapp.com/users',
         {
@@ -193,6 +205,7 @@ const signUpForm = (event) => {
 
 //Login form
 const loginForm = (event) => {
+    event.preventDefault()
     axios.post(
         'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
         {
@@ -236,9 +249,9 @@ useEffect(() => {
             <h3>Sign Up</h3>
                 <form onSubmit={signUpForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={newUser} /><br/>
+                    <input type="text" onChange={handleChangeUser} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={newPass} /><br/>
+                    <input type="password" onChange={handleChangePassword} /><br/>
                      <input type="submit" value="Sign Up!" />
                 </form>
         </Modal>
@@ -247,9 +260,9 @@ useEffect(() => {
             <h3>Login</h3>
                 <form onSubmit={loginForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={newUser} /><br/>
+                    <input type="text" onChange={handleChangeUser} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={newPass} /><br/>
+                    <input type="password" onChange={handleChangePassword} /><br/>
                      <input type="submit" value="Login" />
                 </form>
         </Modal>
@@ -303,8 +316,7 @@ useEffect(() => {
       <section>
         <h3>NY Recommendations</h3>
             {
-                recommend.map((guide, idx) => {
-                    setNewEdit([...newEdit, false])
+                recommend.map((guide) => {
                     return (
                     <div>
                         <Show prop={guide} />
@@ -321,8 +333,7 @@ useEffect(() => {
                             <input type="submit" value="Comment"/>
                           </form>
                         </details>
-                        <button onClick={editOpenModal}>Edit</button>
-                        <Modal open={newEdit([idx])} onClose={editCloseModal} center>
+                        <details><summary>Edit</summary>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
@@ -363,7 +374,7 @@ useEffect(() => {
                                 </select><br/>
                                 <input type="submit" value="Edit" />
                             </form>
-                            </Modal>
+                            </details>
                         <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
