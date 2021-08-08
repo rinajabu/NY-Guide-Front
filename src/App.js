@@ -24,7 +24,7 @@ const [recommend, setRecommend] = useState([])
 const [signUp, setSignUp] = useState(false)
 const [login, setLogin] = useState(false)
 const [newCreate, setNewCreate] = useState(false)
-const [newEdit, setNewEdit] = useState(false)
+const [newEdit, setNewEdit] = useState('')
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
@@ -228,7 +228,9 @@ const loginOpenModal = () => {setLogin(true)}
 const loginCloseModal = () => {setLogin(false)}
 const createOpenModal = () => {setNewCreate(true)}
 const createCloseModal = () => {setNewCreate(false)}
-const editOpenModal = () => {setNewEdit(true)}
+const editOpenModal = (event) => {
+    setNewEdit(event.target.value)
+}
 const editCloseModal = () => {setNewEdit(false)}
 //================useEffect================//
 useEffect(() => {
@@ -333,7 +335,8 @@ useEffect(() => {
                             <input type="submit" value="Comment"/>
                           </form>
                         </details>
-                        <details><summary>Edit</summary>
+                        <button value={guide._id} onClick={editOpenModal}>Edit</button>
+                        <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
@@ -374,7 +377,7 @@ useEffect(() => {
                                 </select><br/>
                                 <input type="submit" value="Edit" />
                             </form>
-                            </details>
+                            </Modal>
                         <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
