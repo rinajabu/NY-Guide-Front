@@ -127,7 +127,8 @@ const handleNewFormSubmit = (event) => {
 }
 
 //Create edit form (only works if all fields are filled in)
-const handleEditForm = (eventEdit) => {
+const handleEditForm = (event, eventEdit) => {
+  event.preventDefault()
   console.log(eventEdit);
     axios
         .put(
@@ -253,7 +254,7 @@ useEffect(() => {
                           </form>
                         </details>
                         <details><summary>Edit</summary>
-                            <form onSubmit={ (event) => {handleEditForm(guide)} }>
+                            <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
                                 <label for="author">Author </label>
