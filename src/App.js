@@ -78,6 +78,16 @@ const handleNewRatingChange = (event) => {
     setNewComment(newComment => [...comments, event.target.value])
   }
 
+// Handle changeUser
+  const handleChangeUser = (event) => {
+      setNewUser(event.target.value)
+  }
+
+// Handle Pasword
+  const handleChangePassword = (event) => {
+      setNewPass(event.target.value)
+  }
+
 // create/post new comment
   const postNewComment = (event, commentData) => {
     event.preventDefault()
@@ -174,8 +184,10 @@ const handleDelete = (eventDelete) => {
         })
 }
 
+
 // Sign up Form
 const signUpForm = (event) => {
+    event.preventDefault()
     axios.post(
         'https://ny-guide-backend-rina-tommy.herokuapp.com/users',
         {
@@ -193,6 +205,7 @@ const signUpForm = (event) => {
 
 //Login form
 const loginForm = (event) => {
+    event.preventDefault()
     axios.post(
         'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
         {
@@ -236,9 +249,9 @@ useEffect(() => {
             <h3>Sign Up</h3>
                 <form onSubmit={signUpForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={newUser} /><br/>
+                    <input type="text" onChange={handleChangeUser} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={newPass} /><br/>
+                    <input type="password" onChange={handleChangePassword} /><br/>
                      <input type="submit" value="Sign Up!" />
                 </form>
         </Modal>
@@ -247,9 +260,9 @@ useEffect(() => {
             <h3>Login</h3>
                 <form onSubmit={loginForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={newUser} /><br/>
+                    <input type="text" onChange={handleChangeUser} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={newPass} /><br/>
+                    <input type="password" onChange={handleChangePassword} /><br/>
                      <input type="submit" value="Login" />
                 </form>
         </Modal>
