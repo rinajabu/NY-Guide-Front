@@ -323,7 +323,7 @@ useEffect(() => {
                         <button onClick={editOpenModal}>Edit</button>
                         <Modal open={newEdit} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
-                            <form onSubmit={ (event) => {handleEditForm(guide)} }>
+                            <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
                                 <label for="author">Author </label>
