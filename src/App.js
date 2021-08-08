@@ -251,7 +251,7 @@ useEffect(() => {
                           </form>
                         </details>
                         <details><summary>Edit</summary>
-                            <form onSubmit={ (event) => {handleEditForm(guide)} }>
+                            <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
                                 <label for="category">Category </label>
