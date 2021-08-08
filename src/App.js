@@ -10,12 +10,12 @@ const App = () => {
 
 ///////////////////// STATES ////////////////////////
 const [newTitle, setNewTitle] = useState('')
-const [newCategory, setNewCategory] = useState('')
+const [newCategory, setNewCategory] = useState('Outdoor')
 const [newLocation, setNewLocation] = useState('')
 const [newImage, setNewImage] = useState('')
 const [newDescription, setNewDescription] = useState('')
-const [newPrice, setNewPrice] = useState('')
-const [newRating, setNewRating] = useState('')
+const [newPrice, setNewPrice] = useState('$')
+const [newRating, setNewRating] = useState('1')
 const [newAuthor, setNewAuthor] = useState('')
 const [newLikes, setNewLikes] = useState(0)
 const [newComment, setNewComment] = useState([])
@@ -126,7 +126,7 @@ const handleNewFormSubmit = (event) => {
     event.currentTarget.reset()
 }
 
-//Create edit form
+//Create edit form (only works if all fields are filled in)
 const handleEditForm = (eventEdit) => {
   console.log(eventEdit);
     axios
@@ -134,13 +134,15 @@ const handleEditForm = (eventEdit) => {
             `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${eventEdit._id}`,
             {
                 title: newTitle || eventEdit.title,
+                author: newAuthor || eventEdit.author,
                 category: newCategory || eventEdit.category,
                 location: newLocation || eventEdit.location,
                 image: newImage || eventEdit.image,
                 description: newDescription || eventEdit.description,
                 price: newPrice || eventEdit.price,
                 rating: newRating || eventEdit.rating,
-                comments: newComment || eventEdit.comments
+                comments: newComment || eventEdit.comments,
+                likes: newLikes || eventEdit.likes
             }
         ).then(() => {
             axios
@@ -196,7 +198,7 @@ useEffect(() => {
           <label for="author">Author </label>
           <input type="text" onChange={handleNewAuthorChange} /><br/>
           <label for="category">Category </label>
-          <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
+          <select onChange={handleNewCategoryChange}>
             <option value="outdoor">Outdoor</option>
             <option value="food">Food</option>
             <option value="museum">Museum</option>
@@ -212,15 +214,15 @@ useEffect(() => {
           <label for="description">Description </label>
           <input type="text" onChange={handleNewDescriptionChange} /><br/>
           <label for="price">Price </label>
-          <select onChange={handleNewPriceChange} defaultValue={newPrice} >
-            <option value="$">$</option>
+          <select onChange={handleNewPriceChange}>
+            <option selected value="$">$</option>
             <option value="$$">$$</option>
             <option value="$$$">$$$</option>
             <option value="$$$$">$$$$</option>
             <option value="$$$$$">$$$$$</option>
           </select><br/>
           <label for="rating">Rating </label>
-          <select onChange={handleNewRatingChange} defaultValue={newRating} >
+          <select onChange={handleNewRatingChange}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -254,6 +256,8 @@ useEffect(() => {
                             <form onSubmit={ (event) => {handleEditForm(guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                                <label for="author">Author </label>
+                                <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
                                 <label for="category">Category </label>
                                 <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
                                     <option value="outdoor">Outdoor</option>
