@@ -147,7 +147,7 @@ const handleEditForm = (eventEdit) => {
                 description: newDescription || eventEdit.description,
                 price: newPrice || eventEdit.price,
                 rating: newRating || eventEdit.rating,
-                comments: newComment
+                comments: newComment || eventEdit.comments
             }
         ).then(() => {
             axios
