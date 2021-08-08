@@ -10,12 +10,12 @@ const App = () => {
 
 ///////////////////// STATES ////////////////////////
 const [newTitle, setNewTitle] = useState('')
-const [newCategory, setNewCategory] = useState('')
+const [newCategory, setNewCategory] = useState('Outdoor')
 const [newLocation, setNewLocation] = useState('')
 const [newImage, setNewImage] = useState('')
 const [newDescription, setNewDescription] = useState('')
-const [newPrice, setNewPrice] = useState('')
-const [newRating, setNewRating] = useState('')
+const [newPrice, setNewPrice] = useState('$')
+const [newRating, setNewRating] = useState('1')
 const [newAuthor, setNewAuthor] = useState('')
 const [newLikes, setNewLikes] = useState(0)
 const [newComment, setNewComment] = useState([])
@@ -133,21 +133,24 @@ const handleNewFormSubmit = (event) => {
     event.currentTarget.reset()
 }
 
-//Create edit form
-const handleEditForm = (eventEdit) => {
+//Create edit form (only works if all fields are filled in)
+const handleEditForm = (event, eventEdit) => {
+  event.preventDefault()
   console.log(eventEdit);
     axios
         .put(
             `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${eventEdit._id}`,
             {
                 title: newTitle || eventEdit.title,
+                author: newAuthor || eventEdit.author,
                 category: newCategory || eventEdit.category,
                 location: newLocation || eventEdit.location,
                 image: newImage || eventEdit.image,
                 description: newDescription || eventEdit.description,
                 price: newPrice || eventEdit.price,
                 rating: newRating || eventEdit.rating,
-                comments: newComment || eventEdit.comments
+                comments: newComment || eventEdit.comments,
+                likes: newLikes || eventEdit.likes
             }
         ).then(() => {
             axios
@@ -323,6 +326,8 @@ useEffect(() => {
                             <form onSubmit={ (event) => {handleEditForm(guide)} }>
                                 <label for="title">Title </label>
                                 <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                                <label for="author">Author </label>
+                                <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
                                 <label for="category">Category </label>
                                 <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
                                     <option value="outdoor">Outdoor</option>
