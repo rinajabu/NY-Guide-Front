@@ -320,8 +320,6 @@ useEffect(() => {
                             <input type="submit" value="Comment"/>
                           </form>
                         </details>
-                        <button onClick={editOpenModal}>Edit</button>
-                        <Modal open={newEdit} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
                                 <label for="title">Title </label>
@@ -362,7 +360,6 @@ useEffect(() => {
                                 </select><br/>
                                 <input type="submit" value="Edit" />
                             </form>
-                            </Modal>
                         <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
