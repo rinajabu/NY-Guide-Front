@@ -17,7 +17,7 @@ const [newDescription, setNewDescription] = useState('')
 const [newPrice, setNewPrice] = useState('$')
 const [newRating, setNewRating] = useState('1')
 const [newAuthor, setNewAuthor] = useState('')
-const [newLikes, setNewLikes] = useState(0)
+const [newLikes, setNewLikes] = useState()
 const [newComment, setNewComment] = useState([])
 const [recommend, setRecommend] = useState([])
 // modal state
@@ -28,7 +28,7 @@ const [newEdit, setNewEdit] = useState('')
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
-const [userList, setUserList] = useState([])
+const [userList, setUserList] = useState()
 
 ////////////////// EVENT HANDLERS ///////////////////
 
@@ -88,6 +88,47 @@ const handleNewRatingChange = (event) => {
       setNewPass(event.target.value)
   }
 
+// handle like button (likes only updated state if something else is edited or a comment is posted)
+  const handleLikeChange = (event, guide) => {
+    event.preventDefault()
+    // make it so you can only like a post once
+    if (guide.likes === 0) {
+    guide.likes++
+    } else {
+      guide.likes--
+    }
+    console.log(guide);
+    setNewLikes(guide.likes)
+  }
+
+// post new like click
+    const postNewLikes = (event, likeData) => {
+    event.preventDefault()
+    axios
+      .put(
+        `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${likeData._id}`,
+        {
+          title: likeData.title,
+          author: likeData.author,
+          category: likeData.category,
+          location: likeData.location,
+          image: likeData.image,
+          description: likeData.description,
+          price: likeData.price,
+          rating: likeData.rating,
+          comments: likeData.comments,
+          likes: newLikes
+        }
+      )
+      .then(() => {
+        axios
+          .get('https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide')
+          .then((response) => {
+            setRecommend(response.data)
+          })
+      })
+  }
+
 // create/post new comment
   const postNewComment = (event, commentData) => {
     event.preventDefault()
@@ -145,7 +186,7 @@ const handleNewFormSubmit = (event) => {
     createCloseModal()
 }
 
-//Create edit form (only works if all fields are filled in)
+//Create edit form
 const handleEditForm = (event, eventEdit) => {
   event.preventDefault()
   console.log(eventEdit);
@@ -207,22 +248,18 @@ const signUpForm = (event) => {
     signUpCloseModal()
 }
 
-//Login form
-const loginForm = (event) => {
+//Login form (cors moved above app.use session in server.js; still getting cors error, why?)
+const loginForm = async event => {
     event.preventDefault()
-    axios.post(
-        'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
-        {
-            username: newUser,
-            password: newPass
-        }
-    ).then(() => {
-        axios
-            .get('https://ny-guide-backend-rina-tommy.herokuapp.com/sessions')
-            .then((response) => {
-                setUserList(response.data)
-            })
-    })
+    const user = {newUser, newPass}
+    const response = await axios.post(
+        'http://localhost:3000/sessions',
+        user
+    )
+    setNewUser(response.data)
+    console.log(response.data);
+    localStorage.setItem('user', response.data)
+    console.log(response.data);
     loginCloseModal()
 }
 
@@ -267,9 +304,9 @@ useEffect(() => {
             <h3>Login</h3>
                 <form onSubmit={loginForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={handleChangeUser} /><br/>
+                    <input type="text" onChange={ ({target}) => setNewUser(target.value)} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={handleChangePassword} /><br/>
+                    <input type="password" onChange={ ({target}) => setNewPass(target.value)} /><br/>
                      <input type="submit" value="Login" />
                 </form>
         </Modal>
@@ -333,6 +370,13 @@ useEffect(() => {
                     return (
                     <div>
                         <Show prop={guide} />
+                        <h4>Likes: {guide.likes} </h4>
+                        <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
+                        { guide.likes === 0 
+                          ? <input type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
+                          : <input type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
+                        }
+                        </form>
                         <details><summary>Show Comments</summary>
                           <h4>Comments</h4>
                           {
