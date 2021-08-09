@@ -5,6 +5,8 @@ import Show from './components/Show'
 // modal //
 import {Modal} from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
+// bootstrap //
+// import 'bootstrap/dist/css/bootstrap.css'
 
 const App = () => {
 
@@ -338,7 +340,7 @@ useEffect(() => {
                 <label for="location">Location </label>
                 <input type="text" onChange={handleNewLocationChange} /><br/>
                 <label for="image-preview">Image Preview </label>
-                <img src={newImage} />
+                <img class="image-preview" src={newImage} /><br/>
                 <label for="image">Image URL </label>
                 <input type="url" onChange={handleNewImageChange} /><br/>
                 <label for="description">Description </label>
@@ -373,8 +375,8 @@ useEffect(() => {
                         <h4>Likes: {guide.likes} </h4>
                         <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
                         { guide.likes === 0 
-                          ? <input type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
-                          : <input type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
+                          ? <input class="center-btn" type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
+                          : <input class="center-btn" type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
                         }
                         </form>
                         <details><summary>Show Comments</summary>
@@ -386,11 +388,11 @@ useEffect(() => {
                           }
                           <h4>Post A Comment</h4>
                           <form onSubmit={ (event) => { postNewComment(event, guide) } }>
-                            <input type="text" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }/>
+                            <input class="center-btn" type="text" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }/>
                             <input type="submit" value="Comment"/>
                           </form>
                         </details>
-                        <button value={guide._id} onClick={editOpenModal}>Edit</button>
+                        <button class="center-btn" value={guide._id} onClick={editOpenModal}>Edit</button>
                         <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
@@ -409,7 +411,7 @@ useEffect(() => {
                                 <label for="location">Location </label>
                                 <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
                                 <label for="image-preview">Image Preview </label>
-                                <img src={newImage} />
+                                <img class="image-preview" src={newImage} />
                                 <label for="image">Image </label>
                                 <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
                                 <label for="description">Description </label>
@@ -430,10 +432,10 @@ useEffect(() => {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select><br/>
-                                <input type="submit" value="Edit" />
+                                <input class="center-btn" type="submit" value="Edit" />
                             </form>
                             </Modal>
-                        <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
+                        <button class="center-btn" onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
                 })
