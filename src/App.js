@@ -88,12 +88,45 @@ const handleNewRatingChange = (event) => {
       setNewPass(event.target.value)
   }
 
-// handle like button
+// handle like button (likes only updated state if something else is edited or a comment is posted)
   const handleLikeChange = (event, guide) => {
     event.preventDefault()
+    // make it so you can only like a post once
+    if (guide.likes === 0) {
     guide.likes++
+    } else {
+      guide.likes--
+    }
     console.log(guide);
     setNewLikes(guide.likes)
+  }
+
+// post new like click
+    const postNewLikes = (event, likeData) => {
+    event.preventDefault()
+    axios
+      .put(
+        `https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide/${likeData._id}`,
+        {
+          title: likeData.title,
+          author: likeData.author,
+          category: likeData.category,
+          location: likeData.location,
+          image: likeData.image,
+          description: likeData.description,
+          price: likeData.price,
+          rating: likeData.rating,
+          comments: likeData.comments,
+          likes: newLikes
+        }
+      )
+      .then(() => {
+        axios
+          .get('https://ny-guide-backend-rina-tommy.herokuapp.com/nyguide')
+          .then((response) => {
+            setRecommend(response.data)
+          })
+      })
   }
 
 // create/post new comment
@@ -220,7 +253,7 @@ const loginForm = async event => {
     event.preventDefault()
     const user = {newUser, newPass}
     const response = await axios.post(
-        'http://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
+        'http://localhost:3000/sessions',
         user
     )
     setNewUser(response.data)
@@ -338,7 +371,12 @@ useEffect(() => {
                     <div>
                         <Show prop={guide} />
                         <h4>Likes: {guide.likes} </h4>
-                        <button onClick={(event) => handleLikeChange(event, guide)}>Like</button>
+                        <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
+                        { guide.likes === 0 
+                          ? <input type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
+                          : <input type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
+                        }
+                        </form>
                         <details><summary>Show Comments</summary>
                           <h4>Comments</h4>
                           {
