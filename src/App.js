@@ -114,6 +114,7 @@ const handleNewRatingChange = (event) => {
             setRecommend(response.data)
           })
       })
+      event.currentTarget.reset()
   }
 
 // create form submit
@@ -274,6 +275,12 @@ useEffect(() => {
         </Modal>
       </header>
       <h1>NY Guide</h1>
+      { newUser &&
+      <>
+        <h2>Welcome, {newUser}! </h2>
+        <p>Browse recommendations or submit your own!</p>
+      </>
+      }
       <section>
         <button onClick={createOpenModal}>Create Recommendation</button>
         <Modal open={newCreate} onClose={createCloseModal} center>
