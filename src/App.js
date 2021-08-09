@@ -17,7 +17,7 @@ const [newDescription, setNewDescription] = useState('')
 const [newPrice, setNewPrice] = useState('$')
 const [newRating, setNewRating] = useState('1')
 const [newAuthor, setNewAuthor] = useState('')
-const [newLikes, setNewLikes] = useState(0)
+const [newLikes, setNewLikes] = useState()
 const [newComment, setNewComment] = useState([])
 const [recommend, setRecommend] = useState([])
 // modal state
@@ -28,7 +28,7 @@ const [newEdit, setNewEdit] = useState('')
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
-const [userList, setUserList] = useState([])
+const [userList, setUserList] = useState()
 
 ////////////////// EVENT HANDLERS ///////////////////
 
@@ -88,6 +88,14 @@ const handleNewRatingChange = (event) => {
       setNewPass(event.target.value)
   }
 
+// handle like button
+  const handleLikeChange = (event, guide) => {
+    event.preventDefault()
+    guide.likes++
+    console.log(guide);
+    setNewLikes(guide.likes)
+  }
+
 // create/post new comment
   const postNewComment = (event, commentData) => {
     event.preventDefault()
@@ -145,7 +153,7 @@ const handleNewFormSubmit = (event) => {
     createCloseModal()
 }
 
-//Create edit form (only works if all fields are filled in)
+//Create edit form
 const handleEditForm = (event, eventEdit) => {
   event.preventDefault()
   console.log(eventEdit);
@@ -207,22 +215,18 @@ const signUpForm = (event) => {
     signUpCloseModal()
 }
 
-//Login form
-const loginForm = (event) => {
+//Login form (cors moved above app.use session in server.js; still getting cors error, why?)
+const loginForm = async event => {
     event.preventDefault()
-    axios.post(
-        'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
-        {
-            username: newUser,
-            password: newPass
-        }
-    ).then(() => {
-        axios
-            .get('https://ny-guide-backend-rina-tommy.herokuapp.com/sessions')
-            .then((response) => {
-                setUserList(response.data)
-            })
-    })
+    const user = {newUser, newPass}
+    const response = await axios.post(
+        'http://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
+        user
+    )
+    setNewUser(response.data)
+    console.log(response.data);
+    localStorage.setItem('user', response.data)
+    console.log(response.data);
     loginCloseModal()
 }
 
@@ -267,9 +271,9 @@ useEffect(() => {
             <h3>Login</h3>
                 <form onSubmit={loginForm}>
                     <label for="username">Username: </label>
-                    <input type="text" onChange={handleChangeUser} /><br/>
+                    <input type="text" onChange={ ({target}) => setNewUser(target.value)} /><br/>
                     <label for="password">Password: </label>
-                    <input type="password" onChange={handleChangePassword} /><br/>
+                    <input type="password" onChange={ ({target}) => setNewPass(target.value)} /><br/>
                      <input type="submit" value="Login" />
                 </form>
         </Modal>
@@ -333,6 +337,8 @@ useEffect(() => {
                     return (
                     <div>
                         <Show prop={guide} />
+                        <h4>Likes: {guide.likes} </h4>
+                        <button onClick={(event) => handleLikeChange(event, guide)}>Like</button>
                         <details><summary>Show Comments</summary>
                           <h4>Comments</h4>
                           {
