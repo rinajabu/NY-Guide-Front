@@ -141,6 +141,7 @@ const handleNewFormSubmit = (event) => {
             })
     })
     event.currentTarget.reset()
+    createCloseModal()
 }
 
 //Create edit form (only works if all fields are filled in)
@@ -169,6 +170,7 @@ const handleEditForm = (event, eventEdit) => {
                     setRecommend(response.data)
                 })
         })
+    editCloseModal()
 }
 
 //Create delete button
@@ -201,6 +203,7 @@ const signUpForm = (event) => {
                 setUserList(response.data)
             })
     })
+    signUpCloseModal()
 }
 
 //Login form
@@ -219,6 +222,7 @@ const loginForm = (event) => {
                 setUserList(response.data)
             })
     })
+    loginCloseModal()
 }
 
 // open and close modal functions
