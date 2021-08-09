@@ -253,7 +253,7 @@ const loginForm = async event => {
     event.preventDefault()
     const user = {newUser, newPass}
     const response = await axios.post(
-        'http://localhost:3000/sessions',
+        'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
         user
     )
     setNewUser(response.data)
