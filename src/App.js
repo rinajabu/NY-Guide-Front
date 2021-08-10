@@ -391,7 +391,7 @@ useEffect(() => {
       <div id="body">
         <div class="open-nav" onClick={openNav}>&#8680;</div>
         <section id="main">
-          <h3>NY Recommendations</h3>
+          <h3 class="title">NY Recommendations</h3>
               {
                   recommend.map((guide) => {
                       return (
@@ -466,14 +466,18 @@ useEffect(() => {
                   })
               }
         </section>
-        <div class="social-media">
-          <h5>Tommy Chung</h5>
-          <a href="https://github.com/tommyc93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
-          <a href="https://www.linkedin.com/in/tommy-chung93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
-          <a></a>
-          <h5>Rina Joy Abu</h5>
-          <a href="https://github.com/rinajabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
-          <a href="https://www.linkedin.com/in/rinajoyabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+        <div class="social-media-container">
+          <div class="our-social-section">
+            <h5 class="our-name">Tommy Chung</h5>
+            <a href="https://github.com/tommyc93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
+            <a href="https://www.linkedin.com/in/tommy-chung93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+            <a></a>
+          </div>
+          <div class="our-social-section">
+            <h5 class="our-name">Rina Joy Abu</h5>
+            <a href="https://github.com/rinajabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
+            <a href="https://www.linkedin.com/in/rinajoyabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+          </div>
         </div>
       </div>
     </main>
