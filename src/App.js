@@ -5,6 +5,8 @@ import Show from './components/Show'
 // modal //
 import {Modal} from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
+// bootstrap //
+import 'bootstrap/dist/css/bootstrap.css'
 
 const App = () => {
 
@@ -183,7 +185,7 @@ const handleNewFormSubmit = (event) => {
             })
     })
     event.currentTarget.reset()
-    createCloseModal()
+    closeNav()
 }
 
 //Create edit form
@@ -274,6 +276,22 @@ const editOpenModal = (event) => {
     setNewEdit(event.target.value)
 }
 const editCloseModal = () => {setNewEdit(false)}
+
+// side nav functions //
+const openNav = () => {
+  document.getElementById('mySideNav').style.width = "400px";
+  document.getElementById('main').style.marginLeft = "400px";
+  document.getElementById('root').style.backgroundColor = "rgba(0,0,0,0.5)";
+}
+
+const closeNav = () => {
+  document.getElementById('mySideNav').style.width = "0";
+  document.getElementById('main').style.marginLeft = "0";
+  document.getElementById('root').style.backgroundColor = "white";
+}
+
+// sticky nav function //
+
 //================useEffect================//
 useEffect(() => {
     axios
@@ -287,83 +305,87 @@ useEffect(() => {
 ///////////////////// RETURN ///////////////
   return (
     <main>
-      <header>
-        <button onClick={signUpOpenModal}>Sign Up</button>
-        <Modal open={signUp} onClose={signUpCloseModal} center>
-            <h3>Sign Up</h3>
-                <form onSubmit={signUpForm}>
-                    <label for="username">Username: </label>
-                    <input type="text" onChange={handleChangeUser} /><br/>
-                    <label for="password">Password: </label>
-                    <input type="password" onChange={handleChangePassword} /><br/>
-                     <input type="submit" value="Sign Up!" />
-                </form>
-        </Modal>
-        <button onClick={loginOpenModal}>Login</button>
-        <Modal open={login} onClose={loginCloseModal} center>
-            <h3>Login</h3>
-                <form onSubmit={loginForm}>
-                    <label for="username">Username: </label>
-                    <input type="text" onChange={ ({target}) => setNewUser(target.value)} /><br/>
-                    <label for="password">Password: </label>
-                    <input type="password" onChange={ ({target}) => setNewPass(target.value)} /><br/>
-                     <input type="submit" value="Login" />
-                </form>
-        </Modal>
+      <img class="banner-img" src="https://m.media-amazon.com/images/I/613m9MTkn6L._AC_SL1023_.jpg"/>
+      <header class="top-nav">
+        <div>
+          <h1 class="site-name">NY Guide</h1>
+        </div>
+        <div>
+          <button onClick={signUpOpenModal}>Sign Up</button>
+          <Modal open={signUp} onClose={signUpCloseModal} center>
+              <h3>Sign Up</h3>
+                  <form onSubmit={signUpForm}>
+                      <label for="username">Username: </label>
+                      <input type="text" onChange={handleChangeUser} /><br/>
+                      <label for="password">Password: </label>
+                      <input type="password" onChange={handleChangePassword} /><br/>
+                      <input type="submit" value="Sign Up!" />
+                  </form>
+          </Modal>
+          <button onClick={loginOpenModal}>Login</button>
+          <Modal open={login} onClose={loginCloseModal} center>
+              <h3>Login</h3>
+                  <form onSubmit={loginForm}>
+                      <label for="username">Username: </label>
+                      <input type="text" onChange={ ({target}) => setNewUser(target.value)} /><br/>
+                      <label for="password">Password: </label>
+                      <input type="password" onChange={ ({target}) => setNewPass(target.value)} /><br/>
+                      <input type="submit" value="Login" />
+                  </form>
+          </Modal>
+        </div>
       </header>
-      <h1>NY Guide</h1>
       { newUser &&
-      <>
+      <div class="user-welcome">
         <h2>Welcome, {newUser}! </h2>
         <p>Browse recommendations or submit your own!</p>
-      </>
+      </div>
       }
-      <section>
-        <button onClick={createOpenModal}>Create Recommendation</button>
-        <Modal open={newCreate} onClose={createCloseModal} center>
-            <h2>Create NY Recommendation</h2>
-                <form onSubmit={handleNewFormSubmit}>
-                <label for="title">Title </label>
-                <input type="text" onChange={handleNewTitleChange} /><br/>
-                <label for="author">Author </label>
-                <input type="text" onChange={handleNewAuthorChange} /><br/>
-                <label for="category">Category </label>
-                <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
-                    <option value="outdoor">Outdoor</option>
-                    <option value="food">Food</option>
-                    <option value="museum">Museum</option>
-                    <option value="sight-seeing">Sight Seeing</option>
-                    <option value="night-life">Night Life</option>
-                </select><br/>
-                <label for="location">Location </label>
-                <input type="text" onChange={handleNewLocationChange} /><br/>
-                <label for="image-preview">Image Preview </label>
-                <img src={newImage} />
-                <label for="image">Image URL </label>
-                <input type="url" onChange={handleNewImageChange} /><br/>
-                <label for="description">Description </label>
-                <input type="text" onChange={handleNewDescriptionChange} /><br/>
-                <label for="price">Price </label>
-                <select onChange={handleNewPriceChange} defaultValue={newPrice} >
-                    <option value="$">$</option>
-                    <option value="$$">$$</option>
-                    <option value="$$$">$$$</option>
-                    <option value="$$$$">$$$$</option>
-                    <option value="$$$$$">$$$$$</option>
-                </select><br/>
-                <label for="rating">Rating </label>
-                <select onChange={handleNewRatingChange} defaultValue={newRating} >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select><br/>
-                <input type="submit" value="Create Recommendation!" />
-            </form>
-        </Modal>
+      <section id="mySideNav" class="sidenav">
+          <a href="#" class="closebtn" onClick={closeNav}>&#xAB;</a> 
+          <h2>Create NY Recommendation</h2>
+          <form onSubmit={handleNewFormSubmit}>
+            <label for="title">Title </label>
+            <input type="text" onChange={handleNewTitleChange} /><br/>
+            <label for="author">Author </label>
+            <input type="text" onChange={handleNewAuthorChange} /><br/>
+            <label for="category">Category </label>
+            <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
+              <option value="outdoor">Outdoor</option>
+              <option value="food">Food</option>
+              <option value="museum">Museum</option>
+              <option value="sight-seeing">Sight Seeing</option>
+              <option value="night-life">Night Life</option>
+            </select><br/>
+            <label for="location">Location </label>
+            <input type="text" onChange={handleNewLocationChange} /><br/>
+            <label for="image-preview">Image Preview </label>
+            <img class="image-preview" src={newImage} /><br/>
+            <label for="image">Image URL </label>
+            <input type="url" onChange={handleNewImageChange} /><br/>
+            <label for="description">Description </label>
+            <input type="text" onChange={handleNewDescriptionChange} /><br/>
+            <label for="price">Price </label>
+            <select onChange={handleNewPriceChange} defaultValue={newPrice} >
+              <option value="$">$</option>
+              <option value="$$">$$</option>
+              <option value="$$$">$$$</option>
+              <option value="$$$$">$$$$</option>
+              <option value="$$$$$">$$$$$</option>
+            </select><br/>
+            <label for="rating">Rating </label>
+            <select onChange={handleNewRatingChange} defaultValue={newRating} >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select><br/>
+            <input type="submit" value="Create Recommendation!" />
+        </form>
       </section>
-      <section>
+      <div class="open-nav" onClick={openNav}>Create Recommendation! &#xBB;</div>
+      <section id="main">
         <h3>NY Recommendations</h3>
             {
                 recommend.map((guide) => {
@@ -373,8 +395,8 @@ useEffect(() => {
                         <h4>Likes: {guide.likes} </h4>
                         <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
                         { guide.likes === 0 
-                          ? <input type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
-                          : <input type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
+                          ? <input class="center-btn" type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
+                          : <input class="center-btn" type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
                         }
                         </form>
                         <details><summary>Show Comments</summary>
@@ -386,11 +408,11 @@ useEffect(() => {
                           }
                           <h4>Post A Comment</h4>
                           <form onSubmit={ (event) => { postNewComment(event, guide) } }>
-                            <input type="text" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }/>
+                            <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
                             <input type="submit" value="Comment"/>
                           </form>
                         </details>
-                        <button value={guide._id} onClick={editOpenModal}>Edit</button>
+                        <button class="center-btn" value={guide._id} onClick={editOpenModal}>Edit</button>
                         <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
                             <h3>Edit Recommendation</h3>
                             <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
@@ -409,7 +431,7 @@ useEffect(() => {
                                 <label for="location">Location </label>
                                 <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
                                 <label for="image-preview">Image Preview </label>
-                                <img src={newImage} />
+                                <img class="image-preview" src={newImage} />
                                 <label for="image">Image </label>
                                 <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
                                 <label for="description">Description </label>
@@ -430,10 +452,10 @@ useEffect(() => {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select><br/>
-                                <input type="submit" value="Edit" />
+                                <input class="center-btn" type="submit" value="Edit" />
                             </form>
                             </Modal>
-                        <button onClick={ (event) => {handleDelete(guide)} }>Delete</button>
+                        <button class="center-btn" onClick={ (event) => {handleDelete(guide)} }>Delete</button>
                     </div>
                     )
                 })
