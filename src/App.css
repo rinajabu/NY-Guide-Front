@@ -50,7 +50,7 @@ main {
     flex-direction: column;
 }
 
-.top-nav {
+#top-nav {
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -106,11 +106,43 @@ input[type="submit"] {
   margin: 0 auto;
 }
 
-.open-nav {
-  cursor: pointer;
+#body {
+  display: flex;
+  justify-content: space-between;
+  width: 97%;
+  padding-top: 1em;
 }
 
-/*/////////////// Side Nav bar ////////////////////*/
+.our-social-section {
+  margin-bottom: 1em;
+}
+
+.social-logo {
+  width: 50px;
+  height: 50px;
+  margin: 0 .3em;
+}
+
+.our-name {
+  font-size: 1em;
+  text-align: center;
+}
+
+.title {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.social-media-container {
+  border: 5px solid black;
+  padding: 1em;
+  height: 15em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*/////////////// Side Nav bar (W3 Schools) ////////////////////*/
 
 .sidenav {
   height: 100%;
@@ -150,6 +182,16 @@ input[type="submit"] {
 .push {
   transition: margin-left 1s;
   padding: 20px;
+}
+
+.open-nav {
+  cursor: pointer;
+  font-size: 2em;
+  height: 1.5em;
+}
+
+.open-nav:hover {
+  color: blue;
 }
 
 /* sticky nav bar */
