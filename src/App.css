@@ -50,7 +50,7 @@ main {
     flex-direction: column;
 }
 
-.top-nav {
+#top-nav {
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -106,11 +106,19 @@ input[type="submit"] {
   margin: 0 auto;
 }
 
-.open-nav {
-  cursor: pointer;
+#body {
+  display: flex;
+  justify-content: space-between;
+  width: 97%;
+  padding-top: 1em;
 }
 
-/*/////////////// Side Nav bar ////////////////////*/
+.social-logo {
+  width: 50px;
+  height: 50px;
+}
+
+/*/////////////// Side Nav bar (W3 Schools) ////////////////////*/
 
 .sidenav {
   height: 100%;
@@ -150,6 +158,18 @@ input[type="submit"] {
 .push {
   transition: margin-left 1s;
   padding: 20px;
+}
+
+.open-nav {
+  cursor: pointer;
+  float: left;
+  /* margin: 1em 0 0 2em; */
+  /* width: 100%; */
+  font-size: 2em;
+}
+
+.open-nav:hover {
+  color: blue;
 }
 
 /* sticky nav bar */
