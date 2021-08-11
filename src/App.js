@@ -7,6 +7,10 @@ import {Modal} from 'react-responsive-modal'
 import 'react-responsive-modal/styles.css'
 // bootstrap //
 import 'bootstrap/dist/css/bootstrap.css'
+import Button from 'react-bootstrap/Button'
+import Navbar from 'react-bootstrap/Navbar'
+import Form from 'react-bootstrap/Form'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const App = () => {
 
@@ -311,7 +315,7 @@ useEffect(() => {
   return (
     <main>
       <img class="banner-img" src="https://m.media-amazon.com/images/I/613m9MTkn6L._AC_SL1023_.jpg"/>
-      <header id="top-nav">
+      <Navbar sticky="top" id="top-nav">
         <div>
           <h1 class="site-name">NY Guide</h1>
         </div>
@@ -331,41 +335,45 @@ useEffect(() => {
           <button class="auth-btn" onClick={signUpOpenModal}>Sign Up</button>
           }
           <Modal open={signUp} onClose={signUpCloseModal} center>
-              <h3>Sign Up</h3>
-                  <form onSubmit={signUpForm}>
-                      <label for="username">Username: </label>
-                      <input type="text" onChange={handleChangeUser} /><br/>
-                      <label for="password">Password: </label>
-                      <input type="password" onChange={handleChangePassword} /><br/>
-                      <input type="submit" value="Sign Up!" />
-                  </form>
+              <div class="signup-login-form">
+                <h3 class="font-3-em">Sign Up</h3>
+                <Form onSubmit={signUpForm}>
+                    <Form.Label class="font-2-em" for="username">Username: </Form.Label>
+                    <Form.Control type="text" onChange={handleChangeUser} /><br/>
+                    <Form.Label class="font-2-em" for="password">Password: </Form.Label>
+                    <Form.Control type="password" onChange={handleChangePassword} /><br/>
+                    <input type="submit" value="Sign Up!" />
+                </Form>
+              </div>
           </Modal>
           {/*//////////////////// LOGIN FORM /////////////////*/}
           { !userList.username &&
           <button class="auth-btn" onClick={loginOpenModal}>Login</button>
           }
           <Modal open={login} onClose={loginCloseModal} center>
-              <h3>Login</h3>
-                  <form onSubmit={loginForm}>
-                      <label for="username">Username: </label>
-                      <input type="text" onChange={ (event) => setNewUser(event.target.value)} /><br/>
-                      <label for="password">Password: </label>
-                      <input type="password" onChange={ (event) => setNewPass(event.target.value)} /><br/>
-                      <input type="submit" value="Login" />
-                  </form>
+              <div class="signup-login-form">
+                <h3 class="font-3-em">Login</h3>
+                <Form onSubmit={loginForm}>
+                    <Form.Label class="font-2-em" for="username">Username: </Form.Label>
+                    <Form.Control type="text" onChange={ (event) => setNewUser(event.target.value)} /><br/>
+                    <Form.Label class="font-2-em" for="password">Password: </Form.Label>
+                    <Form.Control type="password" onChange={ (event) => setNewPass(event.target.value)} /><br/>
+                    <input type="submit" value="Login" />
+                </Form>
+              </div>
           </Modal>
         </div>
-      </header>
+      </Navbar>
       {/*//////////////// CREATE RECOMMENDATION FORM /////////////////*/}
       <section id="mySideNav" class="sidenav">
           <a href="#" class="closebtn" onClick={closeNav}>&#8678;</a> 
-          <h2>Create NY Recommendation</h2>
-          <form onSubmit={handleNewFormSubmit}>
-            <label for="title">Title </label>
-            <input type="text" onChange={handleNewTitleChange} /><br/>
-            <label for="author">Author </label>
-            <input type="text" onChange={handleNewAuthorChange} /><br/>
-            <label for="category">Category </label>
+          <h2 class="font-2-em">Create NY Recommendation</h2>
+          <Form class="create-form" onSubmit={handleNewFormSubmit}>
+            <Form.Label for="title">Title </Form.Label>
+            <Form.Control type="text" onChange={handleNewTitleChange} /><br/>
+            <Form.Label for="author">Author </Form.Label>
+            <Form.Control type="text" onChange={handleNewAuthorChange} /><br/>
+            <Form.Label for="category">Category </Form.Label><br/>
             <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
               <option value="outdoor">Outdoor</option>
               <option value="food">Food</option>
@@ -373,15 +381,15 @@ useEffect(() => {
               <option value="sight-seeing">Sight Seeing</option>
               <option value="night-life">Night Life</option>
             </select><br/>
-            <label for="location">Location </label>
-            <input type="text" onChange={handleNewLocationChange} /><br/>
-            <label for="image-preview">Image Preview </label>
+            <Form.Label for="location">Location </Form.Label>
+            <Form.Control type="text" onChange={handleNewLocationChange} /><br/>
+            <Form.Label for="image-preview">Image Preview </Form.Label><br/>
             <img class="image-preview" src={newImage} /><br/>
-            <label for="image">Image URL </label>
-            <input type="url" onChange={handleNewImageChange} /><br/>
-            <label for="description">Description </label>
-            <input type="text" onChange={handleNewDescriptionChange} /><br/>
-            <label for="price">Price </label>
+            <Form.Label for="image">Image URL </Form.Label>
+            <Form.Control type="url" onChange={handleNewImageChange} /><br/>
+            <Form.Label for="description">Description </Form.Label>
+            <Form.Control type="text" onChange={handleNewDescriptionChange} /><br/>
+            <Form.Label for="price">Price </Form.Label><br/>
             <select onChange={handleNewPriceChange} defaultValue={newPrice} >
               <option value="$">$</option>
               <option value="$$">$$</option>
@@ -389,7 +397,7 @@ useEffect(() => {
               <option value="$$$$">$$$$</option>
               <option value="$$$$$">$$$$$</option>
             </select><br/>
-            <label for="rating">Rating </label>
+            <Form.Label for="rating">Rating </Form.Label><br/>
             <select onChange={handleNewRatingChange} defaultValue={newRating} >
               <option value="1">&#x2B50;</option>
               <option value="2">&#x2B50;&#x2B50;</option>
@@ -398,7 +406,7 @@ useEffect(() => {
               <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
             </select><br/>
             <input type="submit" value="Create Recommendation!" />
-        </form>
+        </Form>
       </section>
       {/*///////////////// OPEN LEFT SIDE NAV ////////////////*/}
       <div id="body">
