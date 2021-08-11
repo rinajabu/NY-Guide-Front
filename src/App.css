@@ -69,6 +69,14 @@ main {
   font-size: 2em;
 } 
 
+.font-1-em {
+  font-size: 1em;
+} 
+
+.comment {
+  border-bottom: solid 1px black;
+}
+
 .signup-login-form {
   width: 300px;
   height: 310px;
@@ -156,7 +164,7 @@ li {
 
 input[type="submit"] {
   display: block;
-  margin: 0 auto;
+  margin: 1em auto 0;
   font-size: 1em;
 }
 
@@ -178,8 +186,8 @@ input[type="url"] {
   width: 450px;
 }
 
-select {
-  margin-bottom: 15px;
+.select-box {
+  margin-bottom: 1em;
 }
 
 #body {
@@ -314,11 +322,3 @@ form {
   background: #eee;
   padding: 1em;
 }
-
-/* sticky nav bar */
-
-/* .sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-} */

@@ -381,7 +381,7 @@ useEffect(() => {
             <Form.Label for="author">Author </Form.Label>
             <Form.Control type="text" onChange={handleNewAuthorChange} /><br/>
             <Form.Label for="category">Category </Form.Label><br/>
-            <select onChange={handleNewCategoryChange} defaultValue={newCategory} >
+            <select class="select-box" onChange={handleNewCategoryChange} defaultValue={newCategory} >
               <option value="outdoor">Outdoor</option>
               <option value="food">Food</option>
               <option value="museum">Museum</option>
@@ -397,7 +397,7 @@ useEffect(() => {
             <Form.Label for="description">Description </Form.Label>
             <Form.Control type="text" onChange={handleNewDescriptionChange} /><br/>
             <Form.Label for="price">Price </Form.Label><br/>
-            <select onChange={handleNewPriceChange} defaultValue={newPrice} >
+            <select class="select-box" onChange={handleNewPriceChange} defaultValue={newPrice} >
               <option value="$">$</option>
               <option value="$$">$$</option>
               <option value="$$$">$$$</option>
@@ -405,7 +405,7 @@ useEffect(() => {
               <option value="$$$$$">$$$$$</option>
             </select><br/>
             <Form.Label for="rating">Rating </Form.Label><br/>
-            <select onChange={handleNewRatingChange} defaultValue={newRating} >
+            <select class="select-box" onChange={handleNewRatingChange} defaultValue={newRating} >
               <option value="1">&#x2B50;</option>
               <option value="2">&#x2B50;&#x2B50;</option>
               <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
@@ -441,13 +441,13 @@ useEffect(() => {
             <Show prop={guide} />
             {/*////////////// COMMENTS ///////////////*/}
             <details><summary>Show Comments</summary>
-              <h4>Comments</h4>
+              <h4 class="font-1-em">Comments</h4>
               {
                 guide.comments.map((comment) => {
-                  return <li>{comment}</li>
+                  return <li class="comment">{comment}</li>
                 })
               }
-              <h4>Post A Comment</h4>
+              <h4 class="font-1-em">Post A Comment</h4>
               <form onSubmit={ (event) => { postNewComment(event, guide) } }>
                 <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
                 <input type="submit" value="Comment"/>
@@ -473,7 +473,7 @@ useEffect(() => {
                       <Form.Label class="font-2-em" for="author">Author </Form.Label>
                       <Form.Control type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
                       <Form.Label class="font-2-em" for="category">Category </Form.Label><br/>
-                      <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                      <select class="select-box" onChange={handleNewCategoryChange} defaultValue={guide.category} >
                           <option value="outdoor">Outdoor</option>
                           <option value="food">Food</option>
                           <option value="museum">Museum</option>
@@ -489,7 +489,7 @@ useEffect(() => {
                       <Form.Label class="font-2-em" for="description">Description </Form.Label>
                       <Form.Control type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
                       <Form.Label class="font-2-em" for="price">Price </Form.Label><br/>
-                      <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                      <select class="select-box" onChange={handleNewPriceChange} defaultValue={guide.price} >
                           <option value="$">$</option>
                           <option value="$$">$$</option>
                           <option value="$$$">$$$</option>
@@ -497,7 +497,7 @@ useEffect(() => {
                           <option value="$$$$$">$$$$$</option>
                       </select><br/>
                       <Form.Label class="font-2-em" for="rating">Rating </Form.Label><br/>
-                      <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                      <select class="select-box" onChange={handleNewRatingChange} defaultValue={guide.rating} >
                           <option value="1">&#x2B50;</option>
                           <option value="2">&#x2B50;&#x2B50;</option>
                           <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
@@ -524,13 +524,13 @@ useEffect(() => {
                       <Show prop={guide} />
                       {/*////////////// COMMENTS ///////////////*/}
                       <details><summary>Show Comments</summary>
-                        <h4>Comments</h4>
+                        <h4 class="font-1-em">Comments</h4>
                         {
                           guide.comments.map((comment) => {
-                            return <li>{comment}</li>
+                            return <li class="comment">{comment}</li>
                           })
                         }
-                        <h4>Post A Comment</h4>
+                        <h4 class="font-1-em">Post A Comment</h4>
                         <form onSubmit={ (event) => { postNewComment(event, guide) } }>
                           <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
                           <input type="submit" value="Comment"/>
@@ -556,7 +556,7 @@ useEffect(() => {
                                   <Form.Label class="font-2-em" for="author">Author </Form.Label>
                                   <Form.Control type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
                                   <Form.Label class="font-2-em" for="category">Category </Form.Label><br/>
-                                  <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                                  <select class="select-box" onChange={handleNewCategoryChange} defaultValue={guide.category} >
                                       <option value="outdoor">Outdoor</option>
                                       <option value="food">Food</option>
                                       <option value="museum">Museum</option>
@@ -572,7 +572,7 @@ useEffect(() => {
                                   <Form.Label class="font-2-em" for="description">Description </Form.Label>
                                   <Form.Control type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
                                   <Form.Label class="font-2-em" for="price">Price </Form.Label><br/>
-                                  <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                                  <select class="select-box" onChange={handleNewPriceChange} defaultValue={guide.price} >
                                       <option value="$">$</option>
                                       <option value="$$">$$</option>
                                       <option value="$$$">$$$</option>
@@ -580,7 +580,7 @@ useEffect(() => {
                                       <option value="$$$$$">$$$$$</option>
                                   </select><br/>
                                   <Form.Label class="font-2-em" for="rating">Rating </Form.Label><br/>
-                                  <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                                  <select class="select-box" onChange={handleNewRatingChange} defaultValue={guide.rating} >
                                       <option value="1">&#x2B50;</option>
                                       <option value="2">&#x2B50;&#x2B50;</option>
                                       <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
