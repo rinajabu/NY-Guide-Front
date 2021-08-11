@@ -255,7 +255,7 @@ const signUpForm = (event) => {
     signUpCloseModal()
 }
 
-//Login form
+// Login form
   const loginForm = (event) => {
     event.preventDefault()
     event.currentTarget.reset()
@@ -265,7 +265,7 @@ const signUpForm = (event) => {
     }
     setNewUser('')
     setNewPass('')
-    axios.put('http://localhost:3000/users/login', userObj).then((response) => {
+    axios.put('https://ny-guide-backend-rina-tommy.herokuapp.com/users/login', userObj).then((response) => {
       if(response.data.username){
         console.log(response);
         setUserList(response.data)
@@ -273,6 +273,7 @@ const signUpForm = (event) => {
         console.log(response);
       }
     })
+    loginCloseModal()
   }
 
 // open and close modal functions
@@ -280,8 +281,6 @@ const signUpOpenModal = () => {setSignUp(true)}
 const signUpCloseModal = () => {setSignUp(false)}
 const loginOpenModal = () => {setLogin(true)}
 const loginCloseModal = () => {setLogin(false)}
-const createOpenModal = () => {setNewCreate(true)}
-const createCloseModal = () => {setNewCreate(false)}
 const editOpenModal = (event) => {
     setNewEdit(event.target.value)
 }
