@@ -35,6 +35,8 @@ const [newEdit, setNewEdit] = useState('')
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
 const [userList, setUserList] = useState({})
+// filter
+const [filterBy, setFilterBy] = useState('All')
 
 ////////////////// EVENT HANDLERS ///////////////////
 
@@ -98,6 +100,11 @@ const handleNewRatingChange = (event) => {
   const handleLogout = () => {
     setUserList({})
   }
+
+// Updating filter
+const updateFilter = (event) => {
+    setFilterBy(event.target.value)
+}
 
 // handle like button (likes only updated state if something else is edited or a comment is posted)
   const handleLikeChange = (event, guide) => {
@@ -413,85 +420,180 @@ useEffect(() => {
         <div class="open-nav" onClick={openNav}>&#8680;</div>
         <section id="main">
           <h3 class="title">NY Recommendations</h3>
+          {/*/////////////////// FILTER DROPDOWN ////////////////////*/}
+          <label>
+            <strong>Filter By Category: </strong>
+            <select value={filterBy} onChange={updateFilter}>
+                <option value="All">All</option>
+                <option value="Outdoor">Outdoor</option>
+                <option value="food">Food</option>
+                <option value="museum">Museum</option>
+                <option value="sight-seeing">Sight-Seeing</option>
+                <option value="night-life">Night-Life</option>
+              </select>
+          </label>
+          <div>
+        {/*////////////////////////////////////////////////////////////*/}
+        {/*//////////////// FILTER BY CATEGORY SECTION ////////////////*/}
+        {/*////////////////////////////////////////////////////////////*/}
+        {recommend.filter(recommendations => recommendations.category == filterBy).map(guide => (
+          <div class="recommendation-container">
+            <Show prop={guide} />
+            {/*////////////// COMMENTS ///////////////*/}
+            <details><summary>Show Comments</summary>
+              <h4>Comments</h4>
               {
-                  recommend.map((guide) => {
-                      return (
-                      <div class="recommendation-container">
-                          <Show prop={guide} />
-                          {/*////////////// COMMENTS ///////////////*/}
-                          <details><summary>Show Comments</summary>
-                            <h4>Comments</h4>
-                            {
-                              guide.comments.map((comment) => {
-                                return <li>{comment}</li>
-                              })
-                            }
-                            <h4>Post A Comment</h4>
-                            <form onSubmit={ (event) => { postNewComment(event, guide) } }>
-                              <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
-                              <input type="submit" value="Comment"/>
-                            </form>
-                          </details>
-                          {/*//////////////// LIKES /////////////////////*/}
-                          <h4>Likes: {guide.likes} </h4>
-                          <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
-                          { guide.likes === 0 
-                            ? <input class="like-btn center-btn" type="submit" value="&#128077;" onClick={ (event) => handleLikeChange(event, guide)} />
-                            : <input class="unlike-btn center-btn" type="submit" value="&#128078;" onClick={ (event) => handleLikeChange(event, guide)} />
-                          }
-                          </form>
-                          {/*//////////////// EDIT FORM //////////////////*/}
-                          <div class="edit-delete-container">
-                            <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
-                            <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
-                                <h3>Edit Recommendation</h3>
-                                <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
-                                    <label for="title">Title </label>
-                                    <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
-                                    <label for="author">Author </label>
-                                    <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
-                                    <label for="category">Category </label>
-                                    <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
-                                        <option value="outdoor">Outdoor</option>
-                                        <option value="food">Food</option>
-                                        <option value="museum">Museum</option>
-                                        <option value="sight-seeing">Sight Seeing</option>
-                                        <option value="night-life">Night Life</option>
-                                    </select><br/>
-                                    <label for="location">Location </label>
-                                    <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
-                                    <label for="image-preview">Image Preview </label>
-                                    <img class="image-preview" src={newImage} />
-                                    <label for="image">Image </label>
-                                    <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
-                                    <label for="description">Description </label>
-                                    <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
-                                    <label for="price">Price </label>
-                                    <select onChange={handleNewPriceChange} defaultValue={guide.price} >
-                                        <option value="$">$</option>
-                                        <option value="$$">$$</option>
-                                        <option value="$$$">$$$</option>
-                                        <option value="$$$$">$$$$</option>
-                                        <option value="$$$$$">$$$$$</option>
-                                    </select><br/>
-                                    <label for="rating">Rating </label>
-                                    <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
-                                        <option value="1">&#x2B50;</option>
-                                        <option value="2">&#x2B50;&#x2B50;</option>
-                                        <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
-                                        <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
-                                        <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
-                                    </select><br/>
-                                    <input class="center-btn" type="submit" value="Edit" />
-                                </form>
-                                </Modal>
-                            {/*///////////////////// DELETE ///////////////*/}
-                            <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
-                          </div>
-                      </div>
-                      )
-                  })
+                guide.comments.map((comment) => {
+                  return <li>{comment}</li>
+                })
               }
+              <h4>Post A Comment</h4>
+              <form onSubmit={ (event) => { postNewComment(event, guide) } }>
+                <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
+                <input type="submit" value="Comment"/>
+              </form>
+            </details>
+            {/*//////////////// LIKES /////////////////////*/}
+            <h4>Likes: {guide.likes} </h4>
+            <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
+            { guide.likes === 0 
+              ? <input class="like-btn center-btn" type="submit" value="&#128077;" onClick={ (event) => handleLikeChange(event, guide)} />
+              : <input class="unlike-btn center-btn" type="submit" value="&#128078;" onClick={ (event) => handleLikeChange(event, guide)} />
+            }
+            </form>
+            {/*//////////////// EDIT FORM //////////////////*/}
+            <div class="edit-delete-container">
+              <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+              <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
+                  <h3>Edit Recommendation</h3>
+                  <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
+                      <label for="title">Title </label>
+                      <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                      <label for="author">Author </label>
+                      <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
+                      <label for="category">Category </label>
+                      <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                          <option value="outdoor">Outdoor</option>
+                          <option value="food">Food</option>
+                          <option value="museum">Museum</option>
+                          <option value="sight-seeing">Sight Seeing</option>
+                          <option value="night-life">Night Life</option>
+                      </select><br/>
+                      <label for="location">Location </label>
+                      <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                      <label for="image-preview">Image Preview </label>
+                      <img class="image-preview" src={newImage} />
+                      <label for="image">Image </label>
+                      <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
+                      <label for="description">Description </label>
+                      <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
+                      <label for="price">Price </label>
+                      <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                          <option value="$">$</option>
+                          <option value="$$">$$</option>
+                          <option value="$$$">$$$</option>
+                          <option value="$$$$">$$$$</option>
+                          <option value="$$$$$">$$$$$</option>
+                      </select><br/>
+                      <label for="rating">Rating </label>
+                      <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                          <option value="1">&#x2B50;</option>
+                          <option value="2">&#x2B50;&#x2B50;</option>
+                          <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
+                          <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                          <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                      </select><br/>
+                      <input class="center-btn" type="submit" value="Edit" />
+                  </form>
+                  </Modal>
+                {/*///////////////////// DELETE ///////////////*/}
+                <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
+              </div>
+          </div>
+        ))}
+        </div>
+        {/*////////////////////////////////////////////////////////////////*/}
+        {/*////////////////// FILTER BY 'ALL' CATEGORY //////////////////////*/}
+        {/*////////////////////////////////////////////////////////////////*/}
+          { filterBy === 'All' &&
+              recommend.map((guide) => {
+                  return (
+                  <div class="recommendation-container">
+                      <Show prop={guide} />
+                      {/*////////////// COMMENTS ///////////////*/}
+                      <details><summary>Show Comments</summary>
+                        <h4>Comments</h4>
+                        {
+                          guide.comments.map((comment) => {
+                            return <li>{comment}</li>
+                          })
+                        }
+                        <h4>Post A Comment</h4>
+                        <form onSubmit={ (event) => { postNewComment(event, guide) } }>
+                          <textarea class="u-full-width" onChange={ (event) => { handleNewCommentsChange(event, guide.comments) } }></textarea>
+                          <input type="submit" value="Comment"/>
+                        </form>
+                      </details>
+                      {/*//////////////// LIKES /////////////////////*/}
+                      <h4>Likes: {guide.likes} </h4>
+                      <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
+                      { guide.likes === 0 
+                        ? <input class="like-btn center-btn" type="submit" value="&#128077;" onClick={ (event) => handleLikeChange(event, guide)} />
+                        : <input class="unlike-btn center-btn" type="submit" value="&#128078;" onClick={ (event) => handleLikeChange(event, guide)} />
+                      }
+                      </form>
+                      {/*//////////////// EDIT FORM //////////////////*/}
+                      <div class="edit-delete-container">
+                        <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+                        <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
+                            <h3>Edit Recommendation</h3>
+                            <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
+                                <label for="title">Title </label>
+                                <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                                <label for="author">Author </label>
+                                <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
+                                <label for="category">Category </label>
+                                <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                                    <option value="outdoor">Outdoor</option>
+                                    <option value="food">Food</option>
+                                    <option value="museum">Museum</option>
+                                    <option value="sight-seeing">Sight Seeing</option>
+                                    <option value="night-life">Night Life</option>
+                                </select><br/>
+                                <label for="location">Location </label>
+                                <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                                <label for="image-preview">Image Preview </label>
+                                <img class="image-preview" src={newImage} />
+                                <label for="image">Image </label>
+                                <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
+                                <label for="description">Description </label>
+                                <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
+                                <label for="price">Price </label>
+                                <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                                    <option value="$">$</option>
+                                    <option value="$$">$$</option>
+                                    <option value="$$$">$$$</option>
+                                    <option value="$$$$">$$$$</option>
+                                    <option value="$$$$$">$$$$$</option>
+                                </select><br/>
+                                <label for="rating">Rating </label>
+                                <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                                    <option value="1">&#x2B50;</option>
+                                    <option value="2">&#x2B50;&#x2B50;</option>
+                                    <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
+                                    <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                    <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                </select><br/>
+                                <input class="center-btn" type="submit" value="Edit" />
+                            </form>
+                            </Modal>
+                        {/*///////////////////// DELETE ///////////////*/}
+                        <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
+                      </div>
+                  </div>
+                  )
+              })
+          }
         </section>
         {/*////////////////// RIGHT SIDE NAV (HANDLES) /////////////////*/}
         <div class="social-media-container right-sidenav">
