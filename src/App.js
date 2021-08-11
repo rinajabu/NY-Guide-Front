@@ -280,21 +280,13 @@ const editCloseModal = () => {setNewEdit(false)}
 // side nav functions //
 const openNav = () => {
   document.getElementById('mySideNav').style.width = "400px";
-  // document.getElementById('main').style.marginLeft = "400px";
-  // document.getElementById('top-nav').style.marginLeft = "400px";
   document.getElementById('root').style.backgroundColor = "rgba(0,0,0,0.5)";
-  // document.getElementById('root').style.zIndex = "1";
 }
 
 const closeNav = () => {
   document.getElementById('mySideNav').style.width = "0";
-  // document.getElementById('main').style.marginLeft = "0";
-  // document.getElementById('top-nav').style.marginLeft = "0";
   document.getElementById('root').style.backgroundColor = "white";
-  // document.getElementById('root').style.zIndex = "0";
 }
-
-// sticky nav function //
 
 //================useEffect================//
 useEffect(() => {
@@ -315,7 +307,8 @@ useEffect(() => {
           <h1 class="site-name">NY Guide</h1>
         </div>
         <div>
-          <button onClick={signUpOpenModal}>Sign Up</button>
+          {/*////////////////// SIGN UP FORM /////////////////*/}
+          <button class="auth-btn" onClick={signUpOpenModal}>Sign Up</button>
           <Modal open={signUp} onClose={signUpCloseModal} center>
               <h3>Sign Up</h3>
                   <form onSubmit={signUpForm}>
@@ -326,7 +319,8 @@ useEffect(() => {
                       <input type="submit" value="Sign Up!" />
                   </form>
           </Modal>
-          <button onClick={loginOpenModal}>Login</button>
+          {/*//////////////////// LOGIN FORM /////////////////*/}
+          <button class="auth-btn" onClick={loginOpenModal}>Login</button>
           <Modal open={login} onClose={loginCloseModal} center>
               <h3>Login</h3>
                   <form onSubmit={loginForm}>
@@ -339,12 +333,14 @@ useEffect(() => {
           </Modal>
         </div>
       </header>
+      {/*////////////////// WELCOME USER (AUTH) MESSAGE //////////////*/}
       { newUser &&
       <div class="user-welcome">
         <h2>Welcome, {newUser}! </h2>
         <p>Browse recommendations or submit your own!</p>
       </div>
       }
+      {/*//////////////// CREATE RECOMMENDATION FORM /////////////////*/}
       <section id="mySideNav" class="sidenav">
           <a href="#" class="closebtn" onClick={closeNav}>&#8678;</a> 
           <h2>Create NY Recommendation</h2>
@@ -379,15 +375,16 @@ useEffect(() => {
             </select><br/>
             <label for="rating">Rating </label>
             <select onChange={handleNewRatingChange} defaultValue={newRating} >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              <option value="1">&#x2B50;</option>
+              <option value="2">&#x2B50;&#x2B50;</option>
+              <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
+              <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+              <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
             </select><br/>
             <input type="submit" value="Create Recommendation!" />
         </form>
       </section>
+      {/*///////////////// OPEN LEFT SIDE NAV ////////////////*/}
       <div id="body">
         <div class="open-nav" onClick={openNav}>&#8680;</div>
         <section id="main">
@@ -395,15 +392,9 @@ useEffect(() => {
               {
                   recommend.map((guide) => {
                       return (
-                      <div>
+                      <div class="recommendation-container">
                           <Show prop={guide} />
-                          <h4>Likes: {guide.likes} </h4>
-                          <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
-                          { guide.likes === 0 
-                            ? <input class="center-btn" type="submit" value="Like" onClick={ (event) => handleLikeChange(event, guide)} />
-                            : <input class="center-btn" type="submit" value="Unlike" onClick={ (event) => handleLikeChange(event, guide)} />
-                          }
-                          </form>
+                          {/*////////////// COMMENTS ///////////////*/}
                           <details><summary>Show Comments</summary>
                             <h4>Comments</h4>
                             {
@@ -417,66 +408,84 @@ useEffect(() => {
                               <input type="submit" value="Comment"/>
                             </form>
                           </details>
-                          <button class="center-btn" value={guide._id} onClick={editOpenModal}>Edit</button>
-                          <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
-                              <h3>Edit Recommendation</h3>
-                              <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
-                                  <label for="title">Title </label>
-                                  <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
-                                  <label for="author">Author </label>
-                                  <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
-                                  <label for="category">Category </label>
-                                  <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
-                                      <option value="outdoor">Outdoor</option>
-                                      <option value="food">Food</option>
-                                      <option value="museum">Museum</option>
-                                      <option value="sight-seeing">Sight Seeing</option>
-                                      <option value="night-life">Night Life</option>
-                                  </select><br/>
-                                  <label for="location">Location </label>
-                                  <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
-                                  <label for="image-preview">Image Preview </label>
-                                  <img class="image-preview" src={newImage} />
-                                  <label for="image">Image </label>
-                                  <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
-                                  <label for="description">Description </label>
-                                  <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
-                                  <label for="price">Price </label>
-                                  <select onChange={handleNewPriceChange} defaultValue={guide.price} >
-                                      <option value="$">$</option>
-                                      <option value="$$">$$</option>
-                                      <option value="$$$">$$$</option>
-                                      <option value="$$$$">$$$$</option>
-                                      <option value="$$$$$">$$$$$</option>
-                                  </select><br/>
-                                  <label for="rating">Rating </label>
-                                  <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                  </select><br/>
-                                  <input class="center-btn" type="submit" value="Edit" />
-                              </form>
-                              </Modal>
-                          <button class="center-btn" onClick={ (event) => {handleDelete(guide)} }>Delete</button>
+                          {/*//////////////// LIKES /////////////////////*/}
+                          <h4>Likes: {guide.likes} </h4>
+                          <form onSubmit={ (event) => {postNewLikes(event, guide) }}>
+                          { guide.likes === 0 
+                            ? <input class="like-btn center-btn" type="submit" value="&#128077;" onClick={ (event) => handleLikeChange(event, guide)} />
+                            : <input class="unlike-btn center-btn" type="submit" value="&#128078;" onClick={ (event) => handleLikeChange(event, guide)} />
+                          }
+                          </form>
+                          {/*//////////////// EDIT FORM //////////////////*/}
+                          <div class="edit-delete-container">
+                            <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+                            <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
+                                <h3>Edit Recommendation</h3>
+                                <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
+                                    <label for="title">Title </label>
+                                    <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                                    <label for="author">Author </label>
+                                    <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
+                                    <label for="category">Category </label>
+                                    <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                                        <option value="outdoor">Outdoor</option>
+                                        <option value="food">Food</option>
+                                        <option value="museum">Museum</option>
+                                        <option value="sight-seeing">Sight Seeing</option>
+                                        <option value="night-life">Night Life</option>
+                                    </select><br/>
+                                    <label for="location">Location </label>
+                                    <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                                    <label for="image-preview">Image Preview </label>
+                                    <img class="image-preview" src={newImage} />
+                                    <label for="image">Image </label>
+                                    <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
+                                    <label for="description">Description </label>
+                                    <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
+                                    <label for="price">Price </label>
+                                    <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                                        <option value="$">$</option>
+                                        <option value="$$">$$</option>
+                                        <option value="$$$">$$$</option>
+                                        <option value="$$$$">$$$$</option>
+                                        <option value="$$$$$">$$$$$</option>
+                                    </select><br/>
+                                    <label for="rating">Rating </label>
+                                    <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                                        <option value="1">&#x2B50;</option>
+                                        <option value="2">&#x2B50;&#x2B50;</option>
+                                        <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
+                                        <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                        <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                    </select><br/>
+                                    <input class="center-btn" type="submit" value="Edit" />
+                                </form>
+                                </Modal>
+                            {/*///////////////////// DELETE ///////////////*/}
+                            <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
+                          </div>
                       </div>
                       )
                   })
               }
         </section>
-        <div class="social-media-container">
+        {/*////////////////// RIGHT SIDE NAV (HANDLES) /////////////////*/}
+        <div class="social-media-container right-sidenav">
+          <h5 class="our-name">Created By &#xA9;</h5>
           <div class="our-social-section">
-            <h5 class="our-name">Tommy Chung</h5>
-            <a href="https://github.com/tommyc93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
-            <a href="https://www.linkedin.com/in/tommy-chung93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
-            <a></a>
+            <h5 class="our-name">Tommy Chung &#127464;&#127475;</h5>
+            <div class="logos-container">
+              <a href="https://github.com/tommyc93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
+              <a href="https://www.linkedin.com/in/tommy-chung93" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+              <a></a>
+            </div>
           </div>
           <div class="our-social-section">
-            <h5 class="our-name">Rina Joy Abu</h5>
-            <a href="https://github.com/rinajabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
-            <a href="https://www.linkedin.com/in/rinajoyabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+            <h5 class="our-name">Rina Joy Abu &#127477;&#127469;</h5>
+            <div class="logos-container">
+              <a href="https://github.com/rinajabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/38/38401.png" alt="Github logo"/></a>
+              <a href="https://www.linkedin.com/in/rinajoyabu" target="_blank"><img class="social-logo" src="https://image.flaticon.com/icons/png/512/61/61109.png" alt="LinkedIn logo"/></a>
+            </div>
           </div>
         </div>
       </div>

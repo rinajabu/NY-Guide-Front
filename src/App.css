@@ -58,6 +58,15 @@ main {
   background-color: black;
 }
 
+.auth-btn {
+  color: white;
+}
+
+.auth-btn:hover {
+  color: black;
+  background-color: white;
+}
+
 .site-name {
   font-size: 3em;
   color: white;
@@ -101,14 +110,29 @@ li {
   margin: 0 auto;
 }
 
+.like-btn:hover {
+  background-color: green;
+}
+
+.unlike-btn:hover {
+  background-color: red;
+}
+
 input[type="submit"] {
   display: block;
   margin: 0 auto;
+  font-size: 1em;
+}
+
+.edit-delete-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 #body {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 97%;
   padding-top: 1em;
 }
@@ -135,11 +159,39 @@ input[type="submit"] {
 
 .social-media-container {
   border: 5px solid black;
-  padding: 1em;
+  border-radius: 5px;
+  padding: 1.5em;
   height: 15em;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  box-shadow: 0 0 7px black;
+}
+
+.logos-container {
+  display: flex;
   justify-content: center;
+}
+
+#main {
+  width: 50%;
+}
+
+.recommendation-container {
+  border: 5px solid black;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  box-shadow: 0 0 7px black;
+  padding: 1em;
+}
+
+.title-prop {
+  font-size: 2em;
+}
+
+.img-prop {
+  display: block;
+  margin: 0 auto;
 }
 
 /*/////////////// Side Nav bar (W3 Schools) ////////////////////*/
@@ -188,10 +240,22 @@ input[type="submit"] {
   cursor: pointer;
   font-size: 2em;
   height: 1.5em;
+  margin-right: 4.5em;
 }
 
 .open-nav:hover {
   color: blue;
+}
+
+.right-sidenav {
+  width: 200px;
+  height: 400px;
+  position: fixed;
+  z-index: 1;
+  top: 415px;
+  right: 20px;
+  background: #eee;
+  padding: 1em;
 }
 
 /* sticky nav bar */
