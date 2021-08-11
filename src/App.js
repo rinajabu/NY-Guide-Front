@@ -30,7 +30,7 @@ const [newEdit, setNewEdit] = useState('')
 // signUp and Login
 const [newUser, setNewUser] = useState('')
 const [newPass, setNewPass] = useState('')
-const [userList, setUserList] = useState()
+const [userList, setUserList] = useState({})
 
 ////////////////// EVENT HANDLERS ///////////////////
 
@@ -88,6 +88,11 @@ const handleNewRatingChange = (event) => {
 // Handle Pasword
   const handleChangePassword = (event) => {
       setNewPass(event.target.value)
+  }
+
+// handle logout
+  const handleLogout = () => {
+    setUserList({})
   }
 
 // handle like button (likes only updated state if something else is edited or a comment is posted)
@@ -250,20 +255,25 @@ const signUpForm = (event) => {
     signUpCloseModal()
 }
 
-//Login form (cors moved above app.use session in server.js; still getting cors error, why?)
-const loginForm = async event => {
+//Login form
+  const loginForm = (event) => {
     event.preventDefault()
-    const user = {newUser, newPass}
-    const response = await axios.post(
-        'https://ny-guide-backend-rina-tommy.herokuapp.com/sessions',
-        user
-    )
-    setNewUser(response.data)
-    console.log(response.data);
-    localStorage.setItem('user', response.data)
-    console.log(response.data);
-    loginCloseModal()
-}
+    event.currentTarget.reset()
+    let userObj = {
+      username: newUser,
+      password: newPass
+    }
+    setNewUser('')
+    setNewPass('')
+    axios.put('http://localhost:3000/users/login', userObj).then((response) => {
+      if(response.data.username){
+        console.log(response);
+        setUserList(response.data)
+      } else {
+        console.log(response);
+      }
+    })
+  }
 
 // open and close modal functions
 const signUpOpenModal = () => {setSignUp(true)}
@@ -307,8 +317,20 @@ useEffect(() => {
           <h1 class="site-name">NY Guide</h1>
         </div>
         <div>
+          {/*////////////////// WELCOME USER (AUTH) MESSAGE //////////////*/}
+          { userList.username &&
+          <div class="welcome-container">
+            <div class="user-welcome">
+              <h2>Welcome, {userList.username}! </h2>
+              <p>Browse recommendations or submit your own!</p>
+            </div>
+            <button class="auth-btn" onClick={handleLogout}>Logout</button>
+          </div>
+          }
           {/*////////////////// SIGN UP FORM /////////////////*/}
+          { !userList.username &&
           <button class="auth-btn" onClick={signUpOpenModal}>Sign Up</button>
+          }
           <Modal open={signUp} onClose={signUpCloseModal} center>
               <h3>Sign Up</h3>
                   <form onSubmit={signUpForm}>
@@ -320,26 +342,21 @@ useEffect(() => {
                   </form>
           </Modal>
           {/*//////////////////// LOGIN FORM /////////////////*/}
+          { !userList.username &&
           <button class="auth-btn" onClick={loginOpenModal}>Login</button>
+          }
           <Modal open={login} onClose={loginCloseModal} center>
               <h3>Login</h3>
                   <form onSubmit={loginForm}>
                       <label for="username">Username: </label>
-                      <input type="text" onChange={ ({target}) => setNewUser(target.value)} /><br/>
+                      <input type="text" onChange={ (event) => setNewUser(event.target.value)} /><br/>
                       <label for="password">Password: </label>
-                      <input type="password" onChange={ ({target}) => setNewPass(target.value)} /><br/>
+                      <input type="password" onChange={ (event) => setNewPass(event.target.value)} /><br/>
                       <input type="submit" value="Login" />
                   </form>
           </Modal>
         </div>
       </header>
-      {/*////////////////// WELCOME USER (AUTH) MESSAGE //////////////*/}
-      { newUser &&
-      <div class="user-welcome">
-        <h2>Welcome, {newUser}! </h2>
-        <p>Browse recommendations or submit your own!</p>
-      </div>
-      }
       {/*//////////////// CREATE RECOMMENDATION FORM /////////////////*/}
       <section id="mySideNav" class="sidenav">
           <a href="#" class="closebtn" onClick={closeNav}>&#8678;</a> 

@@ -72,8 +72,14 @@ main {
   color: white;
 }
 
+.welcome-container {
+  display: flex;
+  align-items: center;
+}
+
 .user-welcome {
   margin: 1em 0;
+  color: white;
 }
 
 h1, h2, h3, h4, p, summary {
