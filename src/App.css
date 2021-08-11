@@ -56,6 +56,23 @@ main {
   justify-content: space-around;
   align-items: center;
   background-color: black;
+  z-index: 0;
+}
+
+.font-3-em {
+  font-size: 3em;
+  padding-top: .5em;
+  margin-bottom: .5em;
+} 
+
+.font-2-em {
+  font-size: 2em;
+} 
+
+.signup-login-form {
+  width: 300px;
+  height: 310px;
+  padding: 1em;
 }
 
 .auth-btn {
@@ -127,6 +144,14 @@ li {
 input[type="submit"] {
   display: block;
   margin: 0 auto;
+  font-size: 1em;
+}
+
+input[type="text"] {
+  font-size: 1.7em;
+}
+
+input[type="url"] {
   font-size: 1em;
 }
 
@@ -202,6 +227,10 @@ input[type="submit"] {
 
 /*/////////////// Side Nav bar (W3 Schools) ////////////////////*/
 
+.create-form {
+  padding: 1em;
+}
+
 .sidenav {
   height: 100%;
   width: 0;
@@ -214,6 +243,7 @@ input[type="submit"] {
   padding-top: 60px;
   transition: 1s;
   box-shadow: 5px 0 10px black;
+  /* padding: 1em; */
 }
 
 .sidenav a {
@@ -258,7 +288,7 @@ input[type="submit"] {
   height: 400px;
   position: fixed;
   z-index: 1;
-  top: 415px;
+  top: 440px;
   right: 20px;
   background: #eee;
   padding: 1em;
