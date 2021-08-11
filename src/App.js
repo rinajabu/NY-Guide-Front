@@ -326,13 +326,13 @@ useEffect(() => {
         <div>
           <h1 class="site-name">NY Guide</h1>
         </div>
-        <div>
+        <div class="auth-nav-container">
           {/*////////////////// WELCOME USER (AUTH) MESSAGE //////////////*/}
           { userList.username &&
           <div class="welcome-container">
             <div class="user-welcome">
               <h2>Welcome, {userList.username}! </h2>
-              <p>Browse recommendations or submit your own!</p>
+              <p>Browse or submit your own!</p>
             </div>
             <button class="auth-btn" onClick={handleLogout}>Logout</button>
           </div>
@@ -375,7 +375,7 @@ useEffect(() => {
       <section id="mySideNav" class="sidenav">
           <a href="#" class="closebtn" onClick={closeNav}>&#8678;</a> 
           <h2 class="font-2-em">Create NY Recommendation</h2>
-          <Form class="create-form" onSubmit={handleNewFormSubmit}>
+          <Form onSubmit={handleNewFormSubmit}>
             <Form.Label for="title">Title </Form.Label>
             <Form.Control type="text" onChange={handleNewTitleChange} /><br/>
             <Form.Label for="author">Author </Form.Label>
@@ -421,8 +421,8 @@ useEffect(() => {
         <section id="main">
           <h3 class="title">NY Recommendations</h3>
           {/*/////////////////// FILTER DROPDOWN ////////////////////*/}
-          <label>
-            <strong>Filter By Category: </strong>
+          <label class="filter-dropdown">
+            <strong>Filter By Category</strong>
             <select value={filterBy} onChange={updateFilter}>
                 <option value="All">All</option>
                 <option value="Outdoor">Outdoor</option>
@@ -463,15 +463,16 @@ useEffect(() => {
             </form>
             {/*//////////////// EDIT FORM //////////////////*/}
             <div class="edit-delete-container">
-              <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
-              <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
-                  <h3>Edit Recommendation</h3>
-                  <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
-                      <label for="title">Title </label>
-                      <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
-                      <label for="author">Author </label>
-                      <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
-                      <label for="category">Category </label>
+            <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+            <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
+                <div class="edit-form">
+                  <h3 class="font-3-em">Edit Recommendation</h3>
+                  <Form onSubmit={ (event) => {handleEditForm(event, guide)} }>
+                      <Form.Label class="font-2-em" for="title">Title </Form.Label>
+                      <Form.Control type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                      <Form.Label class="font-2-em" for="author">Author </Form.Label>
+                      <Form.Control type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
+                      <Form.Label class="font-2-em" for="category">Category </Form.Label><br/>
                       <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
                           <option value="outdoor">Outdoor</option>
                           <option value="food">Food</option>
@@ -479,15 +480,15 @@ useEffect(() => {
                           <option value="sight-seeing">Sight Seeing</option>
                           <option value="night-life">Night Life</option>
                       </select><br/>
-                      <label for="location">Location </label>
-                      <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
-                      <label for="image-preview">Image Preview </label>
-                      <img class="image-preview" src={newImage} />
-                      <label for="image">Image </label>
-                      <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
-                      <label for="description">Description </label>
-                      <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
-                      <label for="price">Price </label>
+                      <Form.Label class="font-2-em" for="location">Location </Form.Label>
+                      <Form.Control type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                      <Form.Label class="font-2-em" for="image-preview">Image Preview </Form.Label><br/>
+                      <img class="image-preview" src={newImage} /><br/>
+                      <Form.Label class="font-2-em" for="image">Image </Form.Label>
+                      <Form.Control type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
+                      <Form.Label class="font-2-em" for="description">Description </Form.Label>
+                      <Form.Control type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
+                      <Form.Label class="font-2-em" for="price">Price </Form.Label><br/>
                       <select onChange={handleNewPriceChange} defaultValue={guide.price} >
                           <option value="$">$</option>
                           <option value="$$">$$</option>
@@ -495,7 +496,7 @@ useEffect(() => {
                           <option value="$$$$">$$$$</option>
                           <option value="$$$$$">$$$$$</option>
                       </select><br/>
-                      <label for="rating">Rating </label>
+                      <Form.Label class="font-2-em" for="rating">Rating </Form.Label><br/>
                       <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
                           <option value="1">&#x2B50;</option>
                           <option value="2">&#x2B50;&#x2B50;</option>
@@ -504,8 +505,9 @@ useEffect(() => {
                           <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
                       </select><br/>
                       <input class="center-btn" type="submit" value="Edit" />
-                  </form>
-                  </Modal>
+                  </Form>
+                </div>
+                </Modal>
                 {/*///////////////////// DELETE ///////////////*/}
                 <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
               </div>
@@ -546,46 +548,48 @@ useEffect(() => {
                       <div class="edit-delete-container">
                         <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
                         <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
-                            <h3>Edit Recommendation</h3>
-                            <form onSubmit={ (event) => {handleEditForm(event, guide)} }>
-                                <label for="title">Title </label>
-                                <input type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
-                                <label for="author">Author </label>
-                                <input type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
-                                <label for="category">Category </label>
-                                <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
-                                    <option value="outdoor">Outdoor</option>
-                                    <option value="food">Food</option>
-                                    <option value="museum">Museum</option>
-                                    <option value="sight-seeing">Sight Seeing</option>
-                                    <option value="night-life">Night Life</option>
-                                </select><br/>
-                                <label for="location">Location </label>
-                                <input type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
-                                <label for="image-preview">Image Preview </label>
-                                <img class="image-preview" src={newImage} />
-                                <label for="image">Image </label>
-                                <input type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
-                                <label for="description">Description </label>
-                                <input type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
-                                <label for="price">Price </label>
-                                <select onChange={handleNewPriceChange} defaultValue={guide.price} >
-                                    <option value="$">$</option>
-                                    <option value="$$">$$</option>
-                                    <option value="$$$">$$$</option>
-                                    <option value="$$$$">$$$$</option>
-                                    <option value="$$$$$">$$$$$</option>
-                                </select><br/>
-                                <label for="rating">Rating </label>
-                                <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
-                                    <option value="1">&#x2B50;</option>
-                                    <option value="2">&#x2B50;&#x2B50;</option>
-                                    <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
-                                    <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
-                                    <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
-                                </select><br/>
-                                <input class="center-btn" type="submit" value="Edit" />
-                            </form>
+                            <div class="edit-form">
+                              <h3 class="font-3-em">Edit Recommendation</h3>
+                              <Form onSubmit={ (event) => {handleEditForm(event, guide)} }>
+                                  <Form.Label class="font-2-em" for="title">Title </Form.Label>
+                                  <Form.Control type="text" onChange={handleNewTitleChange} defaultValue={guide.title} /><br/>
+                                  <Form.Label class="font-2-em" for="author">Author </Form.Label>
+                                  <Form.Control type="text" onChange={handleNewAuthorChange} defaultValue={guide.author} /><br/>
+                                  <Form.Label class="font-2-em" for="category">Category </Form.Label><br/>
+                                  <select onChange={handleNewCategoryChange} defaultValue={guide.category} >
+                                      <option value="outdoor">Outdoor</option>
+                                      <option value="food">Food</option>
+                                      <option value="museum">Museum</option>
+                                      <option value="sight-seeing">Sight Seeing</option>
+                                      <option value="night-life">Night Life</option>
+                                  </select><br/>
+                                  <Form.Label class="font-2-em" for="location">Location </Form.Label>
+                                  <Form.Control type="text" onChange={handleNewLocationChange} defaultValue={guide.location} /><br/>
+                                  <Form.Label class="font-2-em" for="image-preview">Image Preview </Form.Label><br/>
+                                  <img class="image-preview" src={newImage} /><br/>
+                                  <Form.Label class="font-2-em" for="image">Image </Form.Label>
+                                  <Form.Control type="url" onChange={handleNewImageChange} defaultValue={guide.image} /><br/>
+                                  <Form.Label class="font-2-em" for="description">Description </Form.Label>
+                                  <Form.Control type="text" onChange={handleNewDescriptionChange} defaultValue={guide.description} /><br/>
+                                  <Form.Label class="font-2-em" for="price">Price </Form.Label><br/>
+                                  <select onChange={handleNewPriceChange} defaultValue={guide.price} >
+                                      <option value="$">$</option>
+                                      <option value="$$">$$</option>
+                                      <option value="$$$">$$$</option>
+                                      <option value="$$$$">$$$$</option>
+                                      <option value="$$$$$">$$$$$</option>
+                                  </select><br/>
+                                  <Form.Label class="font-2-em" for="rating">Rating </Form.Label><br/>
+                                  <select onChange={handleNewRatingChange} defaultValue={guide.rating} >
+                                      <option value="1">&#x2B50;</option>
+                                      <option value="2">&#x2B50;&#x2B50;</option>
+                                      <option value="3">&#x2B50;&#x2B50;&#x2B50;</option>
+                                      <option value="4">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                      <option value="5">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</option>
+                                  </select><br/>
+                                  <input class="center-btn" type="submit" value="Edit" />
+                              </Form>
+                            </div>
                             </Modal>
                         {/*///////////////////// DELETE ///////////////*/}
                         <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
