@@ -1,8 +1,12 @@
 # ny-guide-front
 
-link to project:
+# Link To Project
 
-https://ny-guide-front-end-rina-tommy.herokuapp.com/
+# [NY Guide](http://ny-guide-front-end-rina-tommy.herokuapp.com/)
+
+## Authors
+- Rina Joy Abu |[LinkedIn](https://www.linkedin.com/in/rinajoyabu/) |[GitHub](https://github.com/rinajabu)
+- Tommy Chung |[LinkedIn](https://www.linkedin.com/in/tommy-chung93) |[GitHub](https://github.com/tommyc93)
 
 User Stories:
 - user is able to sign up and login
