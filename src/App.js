@@ -16,7 +16,7 @@ const App = () => {
 
 ///////////////////// STATES ////////////////////////
 const [newTitle, setNewTitle] = useState('')
-const [newCategory, setNewCategory] = useState('Outdoor')
+const [newCategory, setNewCategory] = useState('outdoor')
 const [newLocation, setNewLocation] = useState('')
 const [newImage, setNewImage] = useState('')
 const [newDescription, setNewDescription] = useState('')
@@ -425,7 +425,7 @@ useEffect(() => {
             <strong>Filter By Category</strong>
             <select value={filterBy} onChange={updateFilter}>
                 <option value="All">All</option>
-                <option value="Outdoor">Outdoor</option>
+                <option value="outdoor">Outdoor</option>
                 <option value="food">Food</option>
                 <option value="museum">Museum</option>
                 <option value="sight-seeing">Sight-Seeing</option>
@@ -463,7 +463,9 @@ useEffect(() => {
             </form>
             {/*//////////////// EDIT FORM //////////////////*/}
             <div class="edit-delete-container">
+            { userList.username &&
             <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+            }
             <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
                 <div class="edit-form">
                   <h3 class="font-3-em">Edit Recommendation</h3>
@@ -509,7 +511,9 @@ useEffect(() => {
                 </div>
                 </Modal>
                 {/*///////////////////// DELETE ///////////////*/}
+                { userList.username &&
                 <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
+                }
               </div>
           </div>
         ))}
@@ -546,7 +550,9 @@ useEffect(() => {
                       </form>
                       {/*//////////////// EDIT FORM //////////////////*/}
                       <div class="edit-delete-container">
+                        { userList.username &&
                         <button value={guide._id} onClick={editOpenModal}>&#x270f;</button>
+                        }
                         <Modal open={newEdit === guide._id} onClose={editCloseModal} center>
                             <div class="edit-form">
                               <h3 class="font-3-em">Edit Recommendation</h3>
@@ -592,7 +598,9 @@ useEffect(() => {
                             </div>
                             </Modal>
                         {/*///////////////////// DELETE ///////////////*/}
+                        { userList.username &&
                         <button onClick={ (event) => {handleDelete(guide)} }>&#128465;&#65039;</button>
+                        }
                       </div>
                   </div>
                   )
