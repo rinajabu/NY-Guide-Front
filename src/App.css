@@ -400,6 +400,10 @@ form {
     bottom: 0;
   }
 
+  input[type="text"] {
+    font-size: 15px;
+  }
+
   .social-media-container {
     padding: 0;
     height: 8em;
