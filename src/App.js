@@ -299,7 +299,7 @@ const editCloseModal = () => {setNewEdit(false)}
 
 // side nav functions //
 const openNav = () => {
-  document.getElementById('mySideNav').style.width = "400px";
+  document.getElementById('mySideNav').style.width = "375px";
   document.getElementById('root').style.backgroundColor = "rgba(0,0,0,0.5)";
 }
 
